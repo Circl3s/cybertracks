@@ -21,7 +21,7 @@ class Rack extends React.Component {
                         <div className="flex flex-row items-center">
                             <span>Patch: </span>
                             {[...Array(4).keys()].map((i) => {
-                                return <input key={i} type="button" className={`h-8 w-8 mx-2 outline-none rounded-lg ${this.props.activePatch === i ? "bg-green-700 hover:bg-green-600 active:bg-green-800" : "bg-slate-700 hover:bg-slate-600 active:bg-slate-800"} border-[1px] border-transparent active:border-slate-700 shadow-md active:shadow-inner flex justify-center items-center duration-75`} value={i} onClick={() => this.props.changePatch(i)} />
+                                return <input key={i} type="button" className={`h-8 w-8 mx-2 cursor-pointer outline-none rounded-lg ${this.props.activePatch === i ? "bg-green-700 hover:bg-green-600 active:bg-green-800" : "bg-slate-700 hover:bg-slate-600 active:bg-slate-800"} border-[1px] border-transparent active:border-slate-700 shadow-md active:shadow-inner flex justify-center items-center duration-75`} value={i} onClick={() => this.props.changePatch(i)} />
 
                             })}
                         </div>
