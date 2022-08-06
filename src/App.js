@@ -13,11 +13,12 @@ import LED from "./components/LED";
 import Rack from "./components/Rack";
 import DefaultParameterField from "./components/DefaultParameterField";
 import Paginator from "./components/Paginator";
+import HelpOverlay from "./components/HelpOverlay";
+import DrumTrack from "./components/DrumTrack"
 
 import linnKick from "./assets/LinnDrum Bass.wav";
 import linnSnare from "./assets/LinnDrum Snare Tune 24.wav";
 import linnHhClosed from "./assets/LinnDrum HiHat Decay 8.wav";
-import HelpOverlay from "./components/HelpOverlay";
 
 
 const globalComp = new Tone.Compressor(-20, 4).toDestination();
@@ -170,50 +171,56 @@ class App extends React.Component {
           ["3:2:0", "C5"],
           ["3:3:0", "C5"],
         ],
-        "01 Drums": [
-          ["0:0:0", "C5"], 
-          ["0:0:2", "E5"],
+        "01-0 Kick": [
+          ["0:0:0", "C5"],     
           ["0:1:0", "C5"], 
-          ["0:1:0", "D5"], 
-          ["0:1:2", "E5"],
           ["0:2:0", "C5"], 
-          ["0:2:2", "E5"],
           ["0:3:0", "C5"], 
-          ["0:3:0", "D5"],
-          ["0:3:2", "E5"],
           ["1:0:0", "C5"], 
-          ["1:0:2", "E5"],
           ["1:1:0", "C5"], 
-          ["1:1:0", "D5"], 
-          ["1:1:2", "E5"],
           ["1:2:0", "C5"], 
-          ["1:2:2", "E5"],
-          ["1:2:2", "D5"],
           ["1:3:0", "C5"], 
-          ["1:3:0", "D5"],
-          ["1:3:2", "E5"],
           ["2:0:0", "C5"], 
-          ["2:0:2", "E5"],
           ["2:1:0", "C5"], 
-          ["2:1:0", "D5"], 
-          ["2:1:2", "E5"],
           ["2:2:0", "C5"], 
-          ["2:2:2", "E5"],
           ["2:3:0", "C5"], 
-          ["2:3:0", "D5"],
-          ["2:3:2", "E5"],
           ["3:0:0", "C5"], 
-          ["3:0:2", "E5"],
           ["3:1:0", "C5"], 
-          ["3:1:0", "D5"], 
-          ["3:1:2", "E5"],
           ["3:2:0", "C5"], 
-          ["3:2:2", "E5"],
           ["3:3:0", "C5"],
-          ["3:3:0", "D5"], 
           ["3:3:1", "C5"], 
-          ["3:3:2", "E5"],
           ["3:3:3", "C5"], 
+        ],
+        "01-1 Snare": [
+          ["0:1:0", "D5"],
+          ["0:3:0", "D5"],
+          ["1:1:0", "D5"], 
+          ["1:2:2", "D5"],
+          ["1:3:0", "D5"],
+          ["2:1:0", "D5"], 
+          ["2:3:0", "D5"],
+          ["3:1:0", "D5"], 
+          ["3:3:0", "D5"], 
+        ],
+        "01-2 Hi-Hat": [
+          ["0:0:2", "E5"],
+          ["0:1:2", "E5"],
+          ["0:2:2", "E5"],
+          ["0:3:2", "E5"],
+          ["1:0:2", "E5"],
+          ["1:1:2", "E5"],
+          ["1:2:2", "E5"],
+          ["1:3:2", "E5"],
+          ["2:0:2", "E5"],
+          ["2:1:2", "E5"],
+          ["2:2:2", "E5"],
+          ["2:3:2", "E5"],
+          ["3:0:2", "E5"],
+          ["3:1:2", "E5"],
+          ["3:2:2", "E5"],
+          ["3:3:2", "E5"],
+        ],
+        "01-3 Perc": [
 
         ],
         "02 Bass": [
@@ -348,9 +355,26 @@ class App extends React.Component {
     this.arpRack = React.createRef();
     this.keysRack = React.createRef();
 
-    this.drumSeq = new Tone.Part((time, note) => {
+    this.duckSeq = new Tone.Part((time, note) => {
+      ducking.gain.setValueAtTime(0, time);
+      ducking.gain.linearRampToValueAtTime(1, "+8n");
+    }, this.state.sequences["00 Ducking"]).start(0);
+
+    this.kickSeq = new Tone.Part((time, note) => {
       drums.triggerAttackRelease(note, "16n", time);
-    }, this.state.sequences["01 Drums"]).start(0);
+    }, this.state.sequences["01-0 Kick"]).start(0);
+
+    this.snareSeq = new Tone.Part((time, note) => {
+      drums.triggerAttackRelease(note, "16n", time);
+    }, this.state.sequences["01-1 Snare"]).start(0);
+
+    this.hihatSeq = new Tone.Part((time, note) => {
+      drums.triggerAttackRelease(note, "16n", time);
+    }, this.state.sequences["01-2 Hi-Hat"]).start(0);
+
+    this.percSeq = new Tone.Part((time, note) => {
+      drums.triggerAttackRelease(note, "16n", time);
+    }, this.state.sequences["01-3 Perc"]).start(0);
     
     this.bassSeq = new Tone.Part((time, value) => {
       bassPatches[this.state.activePatchMap[1]].triggerAttackRelease(value.note, utils.sixteenthsToNotation(value.duration), time, value.velocity);
@@ -363,11 +387,6 @@ class App extends React.Component {
     this.leadSeq = new Tone.Part((time, value) => {
       leadPatches[this.state.activePatchMap[2]].triggerAttackRelease(value.note, utils.sixteenthsToNotation(value.duration), time, value.velocity);
     }, this.state.sequences["03 Lead"]).start(0);
-    
-    this.duckSeq = new Tone.Part((time, note) => {
-      ducking.gain.setValueAtTime(0, time);
-      ducking.gain.linearRampToValueAtTime(1, "+8n");
-    }, this.state.sequences["00 Ducking"]).start(0);
 
     this.trackMap = [
       this.drumSeq,
@@ -661,7 +680,10 @@ class App extends React.Component {
 
   componentWillUnmount() {
     document.removeEventListener("keydown", this.keyboardHandler);
-    this.drumSeq.dispose();
+    this.kickSeq.dispose();
+    this.snareSeq.dispose();
+    this.hihatSeq.dispose();
+    this.percSeq.dispose();
     this.bassSeq.dispose();
     this.arpSeq.dispose();
     this.leadSeq.dispose();
@@ -751,7 +773,7 @@ class App extends React.Component {
         </Toolbar>
         <div className="flex flex-col flex-grow w-full items-stretch">
           <div className="flex flex-row flex-grow items-stretch">
-            <Track number={0} name="Drums" focus={this.state.selected} active={step} clickHandler={this.moveTo}></Track>
+            <DrumTrack number={0} name="Drums" focus={this.state.selected} sequences={[this.duckSeq, this.kickSeq, this.snareSeq, this.hihatSeq, this.percSeq]} active={step} page={this.state.viewingPage} clickHandler={this.moveTo}></DrumTrack>
             <Track number={1} name="Bass" focus={this.state.selected} sequence={this.bassSeq} active={step} page={this.state.viewingPage} clickHandler={this.moveTo}></Track>
             <Track number={2} name="Lead" focus={this.state.selected} sequence={this.leadSeq} active={step} page={this.state.viewingPage} clickHandler={this.moveTo}></Track>
             <Track number={3} name="Arp" focus={this.state.selected} sequence={this.arpSeq} active={step} page={this.state.viewingPage} clickHandler={this.moveTo}></Track>
