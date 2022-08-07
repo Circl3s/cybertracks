@@ -28,15 +28,21 @@ const ducking = new Tone.Gain(1).connect(globalComp);
 const synthReverbSend = new Tone.Reverb(2).connect(ducking);
 const synthDelaySend = new Tone.FeedbackDelay("8n", 0.5).connect(ducking);
 
+const drumMute = new Tone.Gain(1).connect(globalComp);
+
+const drumMeter = new Tone.Meter().connect(drumMute);
+
 const drums = new Tone.Sampler({
   C5: linnKick,
   D5: linnSnare,
   E5: linnHhClosed,
-}).connect(globalComp);
+}).connect(drumMeter);
 
-const bassMeter = new Tone.Meter();
+const bassMute = new Tone.Gain(1).connect(ducking)
 
-const bass1dist = new Tone.Distortion(0.8).connect(bassMeter).connect(ducking);
+const bassMeter = new Tone.Meter().connect(bassMute);
+
+const bass1dist = new Tone.Distortion(0.8).connect(bassMeter);
 
 const bass1 = new Tone.MonoSynth({
   oscillator: {
@@ -50,7 +56,7 @@ const bass1 = new Tone.MonoSynth({
   },
 }).connect(bass1dist);
 
-const bass2filter = new Tone.Filter("2000Hz", "lowpass").connect(bassMeter).connect(ducking);
+const bass2filter = new Tone.Filter("2000Hz", "lowpass").connect(bassMeter);
 
 const bass2dist = new Tone.Distortion(1.0).connect(bass2filter);
 
@@ -74,7 +80,9 @@ const bassPatches = [
   bass2,
 ]
 
-const arpMeter = new Tone.Meter();
+const arpMute = new Tone.Gain(1).connect(ducking).connect(synthReverbSend);
+
+const arpMeter = new Tone.Meter().connect(arpMute);
 
 const arp1 = new Tone.MonoSynth({
   oscillator: {
@@ -86,13 +94,15 @@ const arp1 = new Tone.MonoSynth({
     sustain: 0,
     release: 0.1
   },
-}).connect(arpMeter).connect(ducking).connect(synthReverbSend);
+}).connect(arpMeter);
 
 const arpPatches = [
   arp1,
 ]
 
-const leadMeter = new Tone.Meter();
+const leadMute = new Tone.Gain(1).connect(ducking).connect(synthReverbSend)
+
+const leadMeter = new Tone.Meter().connect(leadMute);
 
 const lead1 = new Tone.DuoSynth({
   vibratoRate: 8,
@@ -120,7 +130,7 @@ const lead1 = new Tone.DuoSynth({
       release: 0.1
     }
   },
-}).connect(leadMeter).connect(ducking).connect(synthReverbSend);
+}).connect(leadMeter);
 
 const leadPatches = [
   lead1,
@@ -145,6 +155,13 @@ class App extends React.Component {
       defaultOctave: 4,
       defaultVelocity: 1,
       defaultDuration: 1,
+      mutes: [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
       activePatchMap: [
         0,
         0,
@@ -350,6 +367,7 @@ class App extends React.Component {
     }
 
     this.tempoLED = React.createRef();
+    this.drumRack = React.createRef();
     this.bassRack = React.createRef();
     this.leadRack = React.createRef();
     this.arpRack = React.createRef();
@@ -389,7 +407,7 @@ class App extends React.Component {
     }, this.state.sequences["03 Lead"]).start(0);
 
     this.trackMap = [
-      this.drumSeq,
+      null,
       this.bassSeq,
       this.leadSeq,
       this.arpSeq,
@@ -401,6 +419,14 @@ class App extends React.Component {
       bassPatches,
       leadPatches,
       arpPatches,
+      null
+    ]
+
+    this.muteNodes = [
+      drumMute,
+      bassMute,
+      leadMute,
+      arpMute,
       null
     ]
     
@@ -443,6 +469,18 @@ class App extends React.Component {
   moveDown = () => {
     this.setState({
       selected: [this.state.selected[0], this.state.selected[1] === 15 ? 0 : this.state.selected[1] + 1]
+    });
+  }
+
+  changeDrumPatch = (n) => {
+    this.setState({activePatchMap: 
+      [
+        n, 
+        this.state.activePatchMap[1], 
+        this.state.activePatchMap[2], 
+        this.state.activePatchMap[3], 
+        this.state.activePatchMap[4]
+      ]
     });
   }
 
@@ -670,6 +708,7 @@ class App extends React.Component {
     }, "4n");
 
     setInterval(() => {
+      this.drumRack.current.updateValue(drumMeter.getValue());
       this.bassRack.current.updateValue(bassMeter.getValue());
       this.leadRack.current.updateValue(leadMeter.getValue());
       this.arpRack.current.updateValue(arpMeter.getValue());
@@ -745,6 +784,19 @@ class App extends React.Component {
     });
   }
 
+  mute = (n) => {
+    console.log("Mute!")
+    this.muteNodes[n].gain.value = (this.muteNodes[n].gain.value + 1) % 2
+    this.setState((state, props) => {
+      let newMutes = state.mutes
+      newMutes[n] = !newMutes[n]
+      console.log("Set state!")
+      return {
+        mutes: newMutes
+      }
+    });
+  }
+
   render() {
     const step = this.getActiveStepIndex();
     return (
@@ -773,17 +825,18 @@ class App extends React.Component {
         </Toolbar>
         <div className="flex flex-col flex-grow w-full items-stretch">
           <div className="flex flex-row flex-grow items-stretch">
-            <DrumTrack number={0} name="Drums" focus={this.state.selected} sequences={[this.duckSeq, this.kickSeq, this.snareSeq, this.hihatSeq, this.percSeq]} active={step} page={this.state.viewingPage} clickHandler={this.moveTo}></DrumTrack>
-            <Track number={1} name="Bass" focus={this.state.selected} sequence={this.bassSeq} active={step} page={this.state.viewingPage} clickHandler={this.moveTo}></Track>
-            <Track number={2} name="Lead" focus={this.state.selected} sequence={this.leadSeq} active={step} page={this.state.viewingPage} clickHandler={this.moveTo}></Track>
-            <Track number={3} name="Arp" focus={this.state.selected} sequence={this.arpSeq} active={step} page={this.state.viewingPage} clickHandler={this.moveTo}></Track>
-            <Track number={4} name="Keys" focus={this.state.selected} active={step} clickHandler={this.moveTo}></Track>
+            <DrumTrack number={0} name="Drums" focus={this.state.selected} sequences={[this.duckSeq, this.kickSeq, this.snareSeq, this.hihatSeq, this.percSeq]} active={step} page={this.state.viewingPage} clickHandler={this.moveTo} muted={this.state.mutes[0]} muteHandler={this.mute}></DrumTrack>
+            <Track number={1} name="Bass" focus={this.state.selected} sequence={this.bassSeq} active={step} page={this.state.viewingPage} clickHandler={this.moveTo} muted={this.state.mutes[1]} muteHandler={this.mute}></Track>
+            <Track number={2} name="Lead" focus={this.state.selected} sequence={this.leadSeq} active={step} page={this.state.viewingPage} clickHandler={this.moveTo} muted={this.state.mutes[2]} muteHandler={this.mute}></Track>
+            <Track number={3} name="Arp" focus={this.state.selected} sequence={this.arpSeq} active={step} page={this.state.viewingPage} clickHandler={this.moveTo} muted={this.state.mutes[3]} muteHandler={this.mute}></Track>
+            <Track number={4} name="Keys" focus={this.state.selected} active={step} clickHandler={this.moveTo} muted={this.state.mutes[4]}></Track>
             <Paginator pages={this.state.pages} addPageCallback={this.addPage} activePage={this.state.activePage} viewingPage={this.state.viewingPage} follow={this.state.autoFollow} onChange={this.changeAutoFollow} viewCallback={this.changeView} />
             <div className="flex w-full flex-col justify-self-stretch bg-slate-800">
-              <Rack ref={this.bassRack} number={1} name="Bass" activePatch={this.state.activePatchMap[1]} changePatch={this.changeBassPatch}  />
-              <Rack ref={this.leadRack} number={2} name="Lead" activePatch={this.state.activePatchMap[2]} changePatch={this.changeLeadPatch}  />
-              <Rack ref={this.arpRack} number={3} name="Arp" activePatch={this.state.activePatchMap[3]} changePatch={this.changeArpPatch}  />
-              <Rack number={4} name="Keys" activePatch={this.state.activeKeysPatch}  />
+              <Rack ref={this.drumRack} number={0} name="Drums" activePatch={this.state.activePatchMap[0]} changePatch={this.changeDrumPatch} muted={this.state.mutes[0]} />
+              <Rack ref={this.bassRack} number={1} name="Bass" activePatch={this.state.activePatchMap[1]} changePatch={this.changeBassPatch} muted={this.state.mutes[1]} />
+              <Rack ref={this.leadRack} number={2} name="Lead" activePatch={this.state.activePatchMap[2]} changePatch={this.changeLeadPatch} muted={this.state.mutes[2]} />
+              <Rack ref={this.arpRack} number={3} name="Arp" activePatch={this.state.activePatchMap[3]} changePatch={this.changeArpPatch} muted={this.state.mutes[3]} />
+              <Rack number={4} name="Keys" activePatch={this.state.activeKeysPatch} muted={this.state.mutes[4]} />
             </div>
           </div>
         </div>

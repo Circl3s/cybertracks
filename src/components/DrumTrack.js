@@ -4,9 +4,9 @@ function DrumTrack(props) {
     return (
         <div className="flex flex-col min-w-fit items-stretch border-2 bg-slate-800 border-slate-800 font-['VT323']">
             <div>
-                <div className="flex flex-row justify-between items-center">
+                <div className="flex flex-row justify-between items-center px-2">
                     <h1 className="text-slate-100 text-2xl">{props.number.toString().padStart(2, "0")} {props.name}</h1>
-                    <button className="flex justify-center items-center bg-slate-800 m-1 rounded-xl w-8 h-8 border-red-500 text-red-500 border-2 text-xl">
+                    <button className={`flex justify-center items-center ${!props.muted ? "bg-slate-800 text-red-500" : "bg-red-500 text-slate-800"} m-1 rounded-xl w-8 h-8 border-red-500 border-2 text-xl`} onClick={() => props.muteHandler(props.number)}>
                         M
                     </button>
                 </div>

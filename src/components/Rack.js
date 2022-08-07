@@ -28,7 +28,7 @@ class Rack extends React.Component {
                     </div>
                 </div>
                 <div className="flex flex-row my-2 w-full h-2 bg-slate-900 rounded-lg">
-                    <div className="flex flex-row bg-green-400 rounded-lg" style={{width: this.state.value + 100 + "%"}} />
+                    <div className={`flex flex-row ${!this.props.muted ? "bg-green-400" : "bg-slate-600"} rounded-lg`} style={{width: this.state.value + 100 + "%"}} />
                 </div>
             </div>
         )
