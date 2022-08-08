@@ -433,15 +433,15 @@ class App extends React.Component {
   }
 
   updateDefaultOctave = (n) => {
-    this.setState({defaultOctave: n});
+    this.setState({defaultOctave: utils.clamp(n, 0, 9)});
   }
 
   updateDefaultVelocity = (n) => {
-    this.setState({defaultVelocity: n});
+    this.setState({defaultVelocity: utils.clamp(n, 0.1, 1)});
   }
 
   updateDefaultDuration = (n) => {
-    this.setState({defaultDuration: n});
+    this.setState({defaultDuration: utils.clamp(n, 1, 16)});
   }
 
   moveTo = (n) => {
@@ -617,10 +617,10 @@ class App extends React.Component {
             this.trackMap[this.state.selected[0]].remove(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16));
             this.trackMap[this.state.selected[0]].add(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16), {
               note: oldNote.value.note, 
-              velocity: oldNote.value.velocity - 1, 
+              velocity: utils.clamp((oldNote.value.velocity - 0.1).toFixed(1), 0.1, 1), 
               duration: oldNote.value.duration ?? this.state.defaultDuration
             });
-            this.updateDefaultVelocity(oldNote.value.velocity - 1);
+            this.updateDefaultVelocity((oldNote.value.velocity - 0.1).toFixed(1));
           } else {
             const newOctave = parseInt(oldNote.value.note.match(/[0-9]/)[0]) - 1
             const newNote = oldNote.value.note.replace(/[0-9]/, newOctave);
@@ -637,29 +637,43 @@ class App extends React.Component {
           }
         } else {
           if (e.ctrlKey) {
-            this.updateDefaultVelocity(this.state.defaultVelocity - 1);
+            this.updateDefaultVelocity((this.state.defaultVelocity - 0.1).toFixed(1));
           } else {
             this.updateDefaultOctave(this.state.defaultOctave - 1);
           }
         }
         break;
-      //? Octave up
+      //? Octave/velocity up
       case (e.key === "="):
         if (oldNote) {
-          const newOctave = parseInt(oldNote.value.note.match(/[0-9]/)[0]) + 1
-          const newNote = oldNote.value.note.replace(/[0-9]/, newOctave);
-          this.trackMap[this.state.selected[0]].remove(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16));
-          this.trackMap[this.state.selected[0]].add(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16), {
-            note: newNote, 
-            velocity: oldNote.value.velocity ?? this.state.defaultVelocity, 
-            duration: oldNote.value.duration ?? this.state.defaultDuration
-          });
-          if (!this.state.playing) {
-            this.previewNote(this.state.selected[0], newNote);
+          if (e.ctrlKey) {
+            this.trackMap[this.state.selected[0]].remove(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16));
+            this.trackMap[this.state.selected[0]].add(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16), {
+              note: oldNote.value.note, 
+              velocity: utils.clamp((parseFloat(oldNote.value.velocity) + 0.1).toFixed(1), 0.1, 1.0), 
+              duration: oldNote.value.duration ?? this.state.defaultDuration
+            });
+            this.updateDefaultVelocity((parseFloat(oldNote.value.velocity) + 0.1).toFixed(1));
+          } else {
+            const newOctave = parseInt(oldNote.value.note.match(/[0-9]/)[0]) + 1
+            const newNote = oldNote.value.note.replace(/[0-9]/, newOctave);
+            this.trackMap[this.state.selected[0]].remove(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16));
+            this.trackMap[this.state.selected[0]].add(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16), {
+              note: newNote, 
+              velocity: oldNote.value.velocity ?? this.state.defaultVelocity, 
+              duration: oldNote.value.duration ?? this.state.defaultDuration
+            });
+            if (!this.state.playing) {
+              this.previewNote(this.state.selected[0], newNote);
+            }
+            this.updateDefaultOctave(newOctave);
           }
-          this.updateDefaultOctave(newOctave);
         } else {
-          this.updateDefaultOctave(this.state.defaultOctave + 1);
+          if (e.ctrlKey) {
+            this.updateDefaultVelocity((parseFloat(this.state.defaultVelocity) + 0.1).toFixed(1));
+          } else {
+            this.updateDefaultOctave(this.state.defaultOctave + 1);
+          }
         }
         break;
       default:
