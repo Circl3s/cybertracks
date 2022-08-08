@@ -71,7 +71,7 @@ function HelpOverlay(props) {
             <h1 className="text-4xl font-['Major_Mono_Display']">cybertrAcks</h1>
             <p className="font-['VT323'] text-xl m-1">(Hover over the controls to see additional tips)</p>
             {legend.map(({ key, desc, tip }) => (
-                <p className="font-['VT323'] text-xl m-1" title={tip}><kbd className="bg-slate-800 text-xl p-1 rounded-md font-['VT323'] uppercase">{key}</kbd>: {desc}</p>
+                <p key={key} className="font-['VT323'] text-xl m-1" title={tip}><kbd className="bg-slate-800 text-xl p-1 rounded-md font-['VT323'] uppercase">{key}</kbd>: {desc}</p>
             ))}
             <p className="font-['VT323'] text-xl m-1">Input new notes by pressing the following keys:</p>
             <div className="flex flex-row text-slate-50 font-['VT323'] text-xl pl-1 z-20 uppercase">

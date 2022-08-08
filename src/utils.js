@@ -49,8 +49,29 @@ function keyboardToNote(key, octave) {
     }
 }
 
+const drumLetters = ["q", "w", "e", "r", "t", "y"];
+
+function keyboardToDrum(key) {
+    switch (key) {
+        case "q":
+            return "C5";
+        case "w":
+            return "C5";
+        case "e":
+            return "D5";
+        case "r":
+            return "E5";
+        case "t":
+            return "F5";
+        case "y":
+            return "G5";
+        default:
+            break;
+    }
+}
+
 function clamp(value, min, max) {
     return Math.min(max, Math.max(min, value));
 }
 
-export default {sixteenthsToNotation, notationToSixteenths, keyboardToNote, clamp};
+export default {sixteenthsToNotation, notationToSixteenths, keyboardToNote, clamp, drumLetters, keyboardToDrum};

@@ -412,7 +412,7 @@ class App extends React.Component {
       this.leadSeq,
       this.arpSeq,
       null
-    ]
+    ];
 
     this.instrumentMap = [
       drums,
@@ -420,7 +420,15 @@ class App extends React.Component {
       leadPatches,
       arpPatches,
       null
-    ]
+    ];
+
+    this.drumMap = [
+      this.duckSeq,
+      this.kickSeq,
+      this.snareSeq,
+      this.hihatSeq,
+      this.percSeq
+    ];
 
     this.muteNodes = [
       drumMute,
@@ -428,7 +436,7 @@ class App extends React.Component {
       leadMute,
       arpMute,
       null
-    ]
+    ];
     
   }
 
@@ -446,6 +454,12 @@ class App extends React.Component {
 
   moveTo = (n) => {
     this.setState({selected: n});
+  }
+
+  moveInPlace = () => {
+    this.setState((state, props) => {
+      return {selected: state.selected}
+    });
   }
 
   moveLeft = () => {
@@ -565,7 +579,15 @@ class App extends React.Component {
 
       //? Rest/Delete
       case (e.key === "Backspace" || e.key === "Delete"):
-        this.trackMap[this.state.selected[0]].remove(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16));
+        if (this.state.selected[0] == 0) {
+          this.duckSeq.remove(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16))
+          this.kickSeq.remove(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16))
+          this.snareSeq.remove(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16))
+          this.hihatSeq.remove(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16))
+          this.percSeq.remove(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16))
+        } else {
+          this.trackMap[this.state.selected[0]].remove(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16));
+        }
         if (e.key === "Delete") {
           this.moveDown();
         } else {
@@ -691,8 +713,17 @@ class App extends React.Component {
             this.previewNote(this.state.selected[0], note);
           }
           this.moveDown();
-          break;
+        } else if (utils.drumLetters.includes(e.key)) {
+          const drum = utils.keyboardToDrum(e.key)
+          const index = utils.drumLetters.indexOf(e.key);
+          const oldNote = this.drumMap[index].at(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16));
+          if (oldNote) {
+            this.drumMap[index].remove(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16));
+          } else {
+            this.drumMap[index].add(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16), drum);
+          }
         }
+        this.moveInPlace();
         break;
     }
   }
