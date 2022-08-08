@@ -10,12 +10,13 @@ function DrumTrack(props) {
                         M
                     </button>
                 </div>
-                <div className="grid grid-cols-5 text-slate-300">
+                <div className="grid grid-cols-6 text-slate-300">
                     <div className="flex justify-center" title="Ducking">D</div>
                     <div className="flex justify-center" title="Kick">K</div>
                     <div className="flex justify-center" title="Snare">S</div>
                     <div className="flex justify-center" title="Hi-Hat">H</div>
                     <div className="flex justify-center" title="Percussion">P</div>
+                    <div className="flex justify-center" title="Crash">C</div>
                 </div>
             </div>
             
@@ -27,6 +28,7 @@ function DrumTrack(props) {
                     const snare = props.sequences[2]?.at(currentTime);
                     const hihat = props.sequences[3]?.at(currentTime);
                     const perc = props.sequences[4]?.at(currentTime);
+                    const crash = props.sequences[5]?.at(currentTime);
                     return <DrumStep key={i} beat={i % 4 === 0} active={i + props.page * 16 === props.active} focused={props.focus[0] === props.number && props.focus[1] === i} step={[duck?.value, kick?.value, snare?.value, hihat?.value, perc?.value]} onClick={() => props.clickHandler([props.number, i])} />
                 })}
             </div>

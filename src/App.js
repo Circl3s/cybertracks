@@ -729,6 +729,14 @@ class App extends React.Component {
     this.duckSeq.dispose();
   }
 
+  componentDidUpdate() {
+    this.muteNodes[0].gain.value = !this.state.mutes[0];
+    this.muteNodes[1].gain.value = !this.state.mutes[1];
+    this.muteNodes[2].gain.value = !this.state.mutes[2];
+    this.muteNodes[3].gain.value = !this.state.mutes[3];
+    // this.muteNodes[4].gain.value = !this.state.mutes[4];
+  }
+
   begin = () => {
     Tone.start();
     this.setState({
@@ -785,15 +793,12 @@ class App extends React.Component {
   }
 
   mute = (n) => {
-    console.log("Mute!")
-    this.muteNodes[n].gain.value = (this.muteNodes[n].gain.value + 1) % 2
     this.setState((state, props) => {
-      let newMutes = state.mutes
-      newMutes[n] = !newMutes[n]
-      console.log("Set state!")
+      let newMutes = state.mutes;
+      newMutes[n] = !newMutes[n];
       return {
         mutes: newMutes
-      }
+      };
     });
   }
 
