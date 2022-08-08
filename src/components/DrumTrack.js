@@ -29,7 +29,7 @@ function DrumTrack(props) {
                     const hihat = props.sequences[3]?.at(currentTime);
                     const perc = props.sequences[4]?.at(currentTime);
                     const crash = props.sequences[5]?.at(currentTime);
-                    return <DrumStep key={i} beat={i % 4 === 0} active={i + props.page * 16 === props.active} focused={props.focus[0] === props.number && props.focus[1] === i} step={[duck?.value, kick?.value, snare?.value, hihat?.value, perc?.value]} onClick={() => props.clickHandler([props.number, i])} />
+                    return <DrumStep key={i} beat={i % 4 === 0} active={i + props.page * 16 === props.active} focused={props.focus[0] === props.number && props.focus[1] === i} step={[duck?.value, kick?.value, snare?.value, hihat?.value, perc?.value, crash?.value]} onClick={() => props.clickHandler([props.number, i])} />
                 })}
             </div>
         </div>
