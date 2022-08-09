@@ -70,8 +70,10 @@ function keyboardToDrum(key) {
     }
 }
 
+const lengthLetters = ["!", "@", "#", "$", "%", "^", "&", "*", "(", ")"];
+
 function clamp(value, min, max) {
     return Math.min(max, Math.max(min, value));
 }
 
-export default {sixteenthsToNotation, notationToSixteenths, keyboardToNote, clamp, drumLetters, keyboardToDrum};
+export default {sixteenthsToNotation, notationToSixteenths, keyboardToNote, clamp, drumLetters, keyboardToDrum, lengthLetters};

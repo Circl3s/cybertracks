@@ -26,7 +26,7 @@ const globalComp = new Tone.Compressor(-20, 4).toDestination();
 const ducking = new Tone.Gain(1).connect(globalComp);
 
 const synthReverbSend = new Tone.Reverb(2).connect(ducking);
-const synthDelaySend = new Tone.FeedbackDelay("8n", 0.5).connect(ducking);
+// const synthDelaySend = new Tone.FeedbackDelay("8n", 0.5).connect(ducking);
 
 const drumMeter = new Tone.Meter().connect(globalComp);
 
@@ -456,7 +456,7 @@ class App extends React.Component {
   }
 
   updateDefaultDuration = (n) => {
-    this.setState({defaultDuration: utils.clamp(n, 1, 16)});
+    this.setState({defaultDuration: utils.clamp(n, 1, 64)});
   }
 
   moveTo = (n) => {
@@ -586,7 +586,7 @@ class App extends React.Component {
 
       //? Rest/Delete
       case (e.key === "Backspace" || e.key === "Delete"):
-        if (this.state.selected[0] == 0) {
+        if (this.state.selected[0] === 0) {
           this.duckSeq.remove(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16))
           this.kickSeq.remove(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16))
           this.snareSeq.remove(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16))
@@ -638,6 +638,20 @@ class App extends React.Component {
         } else {
           this.updateDefaultOctave(e.key);
         }
+        break;
+      //? Change length
+      case (utils.lengthLetters.includes(e.key)):
+        const newDuration = utils.lengthLetters.indexOf(e.key) + 1;
+        if (oldNote) {
+          this.trackMap[this.state.selected[0]].remove(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16));
+          this.trackMap[this.state.selected[0]].add(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16), {
+            note: oldNote.value.note, 
+            velocity: oldNote.value.velocity ?? this.state.defaultVelocity, 
+            duration: newDuration
+          });
+          this.moveDown();
+        }
+        this.updateDefaultDuration(newDuration);
         break;
       //? Octave/velocity down
       case (e.key === "-"):
@@ -703,6 +717,34 @@ class App extends React.Component {
           } else {
             this.updateDefaultOctave(this.state.defaultOctave + 1);
           }
+        }
+        break;
+      //? Length down
+      case (e.key === "_"):
+        if (oldNote) {
+          this.trackMap[this.state.selected[0]].remove(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16));
+          this.trackMap[this.state.selected[0]].add(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16), {
+            note: oldNote.value.note, 
+            velocity: oldNote.value.velocity ?? this.state.defaultVelocity, 
+            duration: utils.clamp((oldNote.value.duration - 1), 1, 64)
+          });
+          this.updateDefaultDuration(oldNote.value.duration - 1);
+        } else {
+          this.updateDefaultDuration(this.state.defaultDuration - 1);
+        }
+        break;
+      //? Length up
+      case (e.key === "+"):
+        if (oldNote) {
+          this.trackMap[this.state.selected[0]].remove(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16));
+          this.trackMap[this.state.selected[0]].add(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16), {
+            note: oldNote.value.note, 
+            velocity: oldNote.value.velocity ?? this.state.defaultVelocity, 
+            duration: utils.clamp((oldNote.value.duration + 1), 1, 64)
+          });
+          this.updateDefaultDuration(oldNote.value.duration + 1);
+        } else {
+          this.updateDefaultDuration(this.state.defaultDuration + 1);
         }
         break;
       default:
@@ -848,7 +890,7 @@ class App extends React.Component {
     this.setState((state, props) => {
       let newMutes = state.mutes;
       newMutes[n] = !newMutes[n];
-      if (click?.button == 1) {
+      if (click?.button === 1) {
         click.preventDefault();
         newMutes = newMutes.map(b => !b);
       }
@@ -880,7 +922,7 @@ class App extends React.Component {
             <div className="flex flex-row items-center">
               <DefaultParameterField min="0" max="9" name="Octave" value={this.state.defaultOctave} color="red" onChange={(e) => this.updateDefaultOctave(e.currentTarget.value)} />
               <DefaultParameterField min="0" max="9" name="Velocity" value={this.state.defaultVelocity * 10 - 1} color="green" onChange={(e) => this.updateDefaultVelocity((parseInt(e.currentTarget.value) + 1) / 10)} />
-              <DefaultParameterField min="1" max="64" name="Octave" value={this.state.defaultDuration} color="blue" onChange={(e) => this.updateDefaultDuration(e.currentTarget.value)} />
+              <DefaultParameterField min="1" max="64" name="Length" value={this.state.defaultDuration} color="blue" onChange={(e) => this.updateDefaultDuration(e.currentTarget.value)} />
             </div>
           </div>
           <div className="flex flex-row justify-center items-center justify-self-center">
