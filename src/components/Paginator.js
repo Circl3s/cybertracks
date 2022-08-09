@@ -14,11 +14,18 @@ function Paginator(props) {
                     </span>
                 </button>
             })}
-            <button className={`w-full h-min m-4 outline-none rounded-lg bg-slate-700 hover:bg-slate-600 active:bg-slate-800 border-[1px] border-transparent active:border-slate-700 shadow-md active:shadow-inner flex justify-center items-center duration-75`} onClick={() => props.addPageCallback()}>
-                <span>
-                    +
-                </span>
-            </button>
+                <div className="flex flex-stretch">
+                    <button className={`flex flex-stretch h-min m-1 px-2 outline-none rounded-lg bg-slate-700 hover:bg-slate-600 active:bg-slate-800 border-[1px] border-transparent active:border-slate-700 shadow-md active:shadow-inner flex justify-center items-center duration-75 disabled:opacity-25`} onClick={() => props.removePageCallback()} disabled={props.pages === 1}>
+                        <span>
+                            -
+                        </span>
+                    </button>
+                    <button className={`flex flex-stretch h-min m-1 px-2 outline-none rounded-lg bg-slate-700 hover:bg-slate-600 active:bg-slate-800 border-[1px] border-transparent active:border-slate-700 shadow-md active:shadow-inner flex justify-center items-center duration-75 disabled:opacity-25`} onClick={() => props.addPageCallback()} disabled={props.pages === 8}>
+                        <span>
+                            +
+                        </span>
+                    </button>
+                </div>
             </div>
         </div>
     );

@@ -886,16 +886,19 @@ class App extends React.Component {
     });
   }
 
+  removePage = () => {
+    this.setState((state, props) => {
+      Tone.Transport.loopEnd = state.pages - 1 + "m";
+      return {
+        pages: state.pages - 1,
+      };
+    });
+  }
+
   mute = (n, click) => {
     this.setState((state, props) => {
-      let newMutes = state.mutes;
-      newMutes[n] = !newMutes[n];
-      if (click?.button === 1) {
-        click.preventDefault();
-        newMutes = newMutes.map(b => !b);
-      }
       return {
-        mutes: newMutes
+        mutes: click?.button === 1 ? state.mutes.map((v, i) => i === n ? v : !v) : state.mutes.map((v, i) => i === n ? !v : v)
       };
     });
   }
@@ -943,7 +946,7 @@ class App extends React.Component {
             <Track number={2} name="Lead" focus={this.state.selected} sequence={this.leadSeq} active={step} page={this.state.viewingPage} clickHandler={this.moveTo} muted={this.state.mutes[2]} muteHandler={this.mute}></Track>
             <Track number={3} name="Arp" focus={this.state.selected} sequence={this.arpSeq} active={step} page={this.state.viewingPage} clickHandler={this.moveTo} muted={this.state.mutes[3]} muteHandler={this.mute}></Track>
             <Track number={4} name="Keys" focus={this.state.selected} active={step} clickHandler={this.moveTo} muted={this.state.mutes[4]}></Track>
-            <Paginator pages={this.state.pages} addPageCallback={this.addPage} activePage={this.state.activePage} viewingPage={this.state.viewingPage} follow={this.state.autoFollow} onChange={this.changeAutoFollow} viewCallback={this.changeView} />
+            <Paginator pages={this.state.pages} addPageCallback={this.addPage} removePageCallback={this.removePage} activePage={this.state.activePage} viewingPage={this.state.viewingPage} follow={this.state.autoFollow} onChange={this.changeAutoFollow} viewCallback={this.changeView} />
             <div className="flex w-full flex-col justify-self-stretch bg-slate-800">
               <Rack ref={this.drumRack} number={0} name="Drums" activePatch={this.state.activePatchMap[0]} changePatch={this.changeDrumPatch} changeVolume={this.changeVolume} muted={this.state.mutes[0]} />
               <Rack ref={this.bassRack} number={1} name="Bass" activePatch={this.state.activePatchMap[1]} changePatch={this.changeBassPatch} changeVolume={this.changeVolume} muted={this.state.mutes[1]} />
