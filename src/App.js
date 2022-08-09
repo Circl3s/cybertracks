@@ -25,10 +25,12 @@ const globalComp = new Tone.Compressor(-20, 4).toDestination();
 
 const ducking = new Tone.Gain(1).connect(globalComp);
 
-const synthReverbSend = new Tone.Reverb(2).connect(ducking);
+const reverbSend = new Tone.Reverb(2).connect(ducking);
 // const synthDelaySend = new Tone.FeedbackDelay("8n", 0.5).connect(ducking);
 
-const drumMeter = new Tone.Meter().connect(globalComp);
+const drumReverbGate = new Tone.Gain(0).connect(reverbSend);
+
+const drumMeter = new Tone.Meter().connect(drumReverbGate).connect(globalComp);
 
 const drumMute = new Tone.Gain(1).connect(drumMeter);
 
@@ -38,7 +40,9 @@ const drums = new Tone.Sampler({
   E5: linnHhClosed,
 }).connect(drumMute);
 
-const bassMeter = new Tone.Meter().connect(ducking);
+const bassReverbGate = new Tone.Gain(0).connect(reverbSend);
+
+const bassMeter = new Tone.Meter().connect(bassReverbGate).connect(ducking);
 
 const bassMute = new Tone.Gain(1).connect(bassMeter);
 
@@ -80,7 +84,9 @@ const bassPatches = [
   bass2,
 ]
 
-const arpMeter = new Tone.Meter().connect(ducking).connect(synthReverbSend);
+const arpReverbGate = new Tone.Gain(1).connect(reverbSend);
+
+const arpMeter = new Tone.Meter().connect(arpReverbGate).connect(ducking);
 
 const arpMute = new Tone.Gain(1).connect(arpMeter);
 
@@ -100,7 +106,9 @@ const arpPatches = [
   arp1,
 ]
 
-const leadMeter = new Tone.Meter().connect(ducking).connect(synthReverbSend);
+const leadReverbGate = new Tone.Gain(1).connect(reverbSend);
+
+const leadMeter = new Tone.Meter().connect(leadReverbGate).connect(ducking);
 
 const leadMute = new Tone.Gain(1).connect(leadMeter);
 
@@ -168,6 +176,20 @@ class App extends React.Component {
         1.0,
         1.0,
         1.0
+      ],
+      reverb: [
+        false,
+        false,
+        true,
+        true,
+        true
+      ],
+      ducking: [
+        null,
+        true,
+        true,
+        true,
+        true
       ],
       activePatchMap: [
         0,
@@ -445,6 +467,13 @@ class App extends React.Component {
       null
     ];
     
+    this.reverbNodes = [
+      drumReverbGate,
+      bassReverbGate,
+      leadReverbGate,
+      arpReverbGate,
+      null
+    ]
   }
 
   updateDefaultOctave = (n) => {
@@ -829,6 +858,12 @@ class App extends React.Component {
     this.muteNodes[2].gain.value = this.state.volumes[2] * !this.state.mutes[2];
     this.muteNodes[3].gain.value = this.state.volumes[3] * !this.state.mutes[3];
     // this.muteNodes[4].gain.value = !this.state.mutes[4];
+
+    this.reverbNodes[0].gain.value = this.state.reverb[0];
+    this.reverbNodes[1].gain.value = this.state.reverb[1];
+    this.reverbNodes[2].gain.value = this.state.reverb[2];
+    this.reverbNodes[3].gain.value = this.state.reverb[3];
+    // this.reverbNodes[4].gain.value = this.state.reverb[4];
   }
 
   begin = () => {
@@ -903,6 +938,14 @@ class App extends React.Component {
     });
   }
 
+  toggleReverb = (n) => {
+    this.setState((state, props) => {
+      return {
+        reverb: state.reverb.map((v, i) => i === n ? !v : v)
+      };
+    });
+  }
+
   changeVolume = (n, value) => {
     this.setState((state, props) => {
       let newVolumes = state.volumes;
@@ -948,10 +991,10 @@ class App extends React.Component {
             <Track number={4} name="Keys" focus={this.state.selected} active={step} clickHandler={this.moveTo} muted={this.state.mutes[4]}></Track>
             <Paginator pages={this.state.pages} addPageCallback={this.addPage} removePageCallback={this.removePage} activePage={this.state.activePage} viewingPage={this.state.viewingPage} follow={this.state.autoFollow} onChange={this.changeAutoFollow} viewCallback={this.changeView} />
             <div className="flex w-full flex-col justify-self-stretch bg-slate-800">
-              <Rack ref={this.drumRack} number={0} name="Drums" activePatch={this.state.activePatchMap[0]} changePatch={this.changeDrumPatch} changeVolume={this.changeVolume} muted={this.state.mutes[0]} />
-              <Rack ref={this.bassRack} number={1} name="Bass" activePatch={this.state.activePatchMap[1]} changePatch={this.changeBassPatch} changeVolume={this.changeVolume} muted={this.state.mutes[1]} />
-              <Rack ref={this.leadRack} number={2} name="Lead" activePatch={this.state.activePatchMap[2]} changePatch={this.changeLeadPatch} changeVolume={this.changeVolume} muted={this.state.mutes[2]} />
-              <Rack ref={this.arpRack} number={3} name="Arp" activePatch={this.state.activePatchMap[3]} changePatch={this.changeArpPatch} changeVolume={this.changeVolume} muted={this.state.mutes[3]} />
+              <Rack ref={this.drumRack} number={0} name="Drums" activePatch={this.state.activePatchMap[0]} activeReverb={this.state.reverb[0]} reverbHandler={this.toggleReverb} changePatch={this.changeDrumPatch} changeVolume={this.changeVolume} muted={this.state.mutes[0]} />
+              <Rack ref={this.bassRack} number={1} name="Bass" activePatch={this.state.activePatchMap[1]} activeReverb={this.state.reverb[1]} reverbHandler={this.toggleReverb} activeDucking={this.state.ducking[1]} changePatch={this.changeBassPatch} changeVolume={this.changeVolume} muted={this.state.mutes[1]} />
+              <Rack ref={this.leadRack} number={2} name="Lead" activePatch={this.state.activePatchMap[2]} activeReverb={this.state.reverb[2]} reverbHandler={this.toggleReverb} activeDucking={this.state.ducking[2]} changePatch={this.changeLeadPatch} changeVolume={this.changeVolume} muted={this.state.mutes[2]} />
+              <Rack ref={this.arpRack} number={3} name="Arp" activePatch={this.state.activePatchMap[3]} activeReverb={this.state.reverb[3]} reverbHandler={this.toggleReverb} activeDucking={this.state.ducking[3]} changePatch={this.changeArpPatch} changeVolume={this.changeVolume} muted={this.state.mutes[3]} />
               <Rack number={4} name="Keys" activePatch={this.state.activeKeysPatch} changeVolume={this.changeVolume} muted={this.state.mutes[4]} />
             </div>
           </div>
