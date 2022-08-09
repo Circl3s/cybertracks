@@ -844,10 +844,14 @@ class App extends React.Component {
     });
   }
 
-  mute = (n) => {
+  mute = (n, click) => {
     this.setState((state, props) => {
       let newMutes = state.mutes;
       newMutes[n] = !newMutes[n];
+      if (click?.button == 1) {
+        click.preventDefault();
+        newMutes = newMutes.map(b => !b);
+      }
       return {
         mutes: newMutes
       };

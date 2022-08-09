@@ -12,6 +12,14 @@ class Rack extends React.Component {
         this.setState({value: value});
     }
 
+    reset = (e) => {
+        if (e.button == 1) {
+            e.preventDefault();
+            e.target.value = 1.0;
+            this.props.changeVolume(this.props.number, 1.0)
+        }
+    }
+
     render() {
         return (
             <div className="p-4 flex flex-col w-full justify-start font-['VT323'] bg-slate-800 text-slate-50 border-b-2 border-slate-700">
@@ -29,7 +37,7 @@ class Rack extends React.Component {
                 </div>
                 <div className="relative flex flex-row my-2 w-full h-2 bg-slate-900 rounded-lg">
                     <div className={`flex flex-row ${!this.props.muted ? "bg-green-400" : "bg-slate-600"} rounded-lg`} style={{width: this.state.value + 100 + "%"}} />
-                    <input className="absolute -top-1 w-full" type="range" min="0" max="1.25" step="0.01" defaultValue="1" onChange={(e) => this.props.changeVolume(this.props.number, e.target.value)} />
+                    <input className="absolute -top-1 w-full" type="range" min="0" max="1.25" step="0.01" defaultValue="1" onChange={(e) => this.props.changeVolume(this.props.number, e.target.value)} onMouseDown={this.reset} />
                 </div>
             </div>
         )
