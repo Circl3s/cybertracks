@@ -38,5 +38,12 @@ input[type="range"]::-webkit-slider-thumb {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  @apply bg-slate-700 shadow-md hover:bg-slate-600 hover:cursor-pointer
+  @apply bg-slate-700 shadow-md hover:bg-slate-600 hover:cursor-pointer duration-75
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  @apply bg-slate-700 shadow-md hover:bg-slate-600 hover:cursor-pointer duration-75
 }

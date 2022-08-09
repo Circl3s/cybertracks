@@ -6,7 +6,7 @@ function Track(props) {
             <div>
                 <div className="flex flex-row justify-between items-center px-2">
                     <h1 className="text-slate-100 text-2xl">{props.number.toString().padStart(2, "0")} {props.name}</h1>
-                    <button className={`flex justify-center items-center ${!props.muted ? "bg-slate-800 text-red-500" : "bg-red-500 text-slate-800"} m-1 rounded-xl w-8 h-8 border-red-500 border-2 text-xl`} onClick={() => props.muteHandler(props.number)}>
+                    <button className={`flex justify-center outline-none duration-75 items-center ${!props.muted ? "bg-slate-800 hover:bg-slate-700 text-red-500" : "bg-red-500 hover:bg-red-400 text-slate-800"} m-1 rounded-xl w-8 h-8 border-red-500 border-2 text-xl`} onClick={() => props.muteHandler(props.number)}>
                         M
                     </button>
                 </div>
