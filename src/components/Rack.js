@@ -19,7 +19,7 @@ class Rack extends React.Component {
     }
 
     reset = (e) => {
-        if (e.button == 1) {
+        if (e.button === 1) {
             e.preventDefault();
             e.target.value = 1.0;
             this.props.changeVolume(this.props.number, 1.0)

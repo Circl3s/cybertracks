@@ -499,7 +499,7 @@ class App extends React.Component {
     }, this.state.sequences["01-3 Perc"]).start(0);
 
     this.crashSeq = new Tone.Part((time, value) => {
-      drumPatches[this.state.activePatchMap[0]].triggerAttackRelease(value.note, "1n", time, 0.5);
+      drumPatches[this.state.activePatchMap[0]].triggerAttackRelease(value.note, "1n", time, 0.4);
     }, this.state.sequences["01-4 Crash"]).start(0);
     
     this.bassSeq = new Tone.Part((time, value) => {
@@ -671,6 +671,12 @@ class App extends React.Component {
   }
 
   keyboardHandler = (e) => {
+    if (document.activeElement?.tagName.toLowerCase() === "input") {
+      if (e.key === "Enter") {
+        document.activeElement?.blur();
+      }
+      return;
+    }
     const oldNote = this.trackMap[this.state.selected[0]]?.at(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16));
     e.preventDefault();
     if (e.key === "F5") {
@@ -1062,6 +1068,7 @@ class App extends React.Component {
   }
 
   changeVolume = (n, value) => {
+    document.activeElement?.blur();
     this.setState((state, props) => {
       let newVolumes = state.volumes;
       newVolumes[n] = value;
