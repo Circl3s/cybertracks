@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/static/css/main.c781ab50.css",
-    "main.js": "/static/js/main.a2aed4fd.js",
-    "static/js/787.9b00b6b2.chunk.js": "/static/js/787.9b00b6b2.chunk.js",
-    "static/media/LinnDrum Crash.wav": "/static/media/LinnDrum Crash.89e03431388d594674d1.wav",
-    "static/media/LinnDrum Snare Tune 24.wav": "/static/media/LinnDrum Snare Tune 24.0413392f5c3fe8d09cd9.wav",
-    "static/media/LinnDrum Conga Tuning 8.wav": "/static/media/LinnDrum Conga Tuning 8.7c3cda74bf99647ec901.wav",
-    "static/media/LinnDrum Bass.wav": "/static/media/LinnDrum Bass.cf303b41f9f829fd2138.wav",
-    "static/media/LinnDrum HiHat Decay 8.wav": "/static/media/LinnDrum HiHat Decay 8.189647bc6f9a6b8131cf.wav",
-    "index.html": "/index.html",
-    "main.c781ab50.css.map": "/static/css/main.c781ab50.css.map",
-    "main.a2aed4fd.js.map": "/static/js/main.a2aed4fd.js.map",
-    "787.9b00b6b2.chunk.js.map": "/static/js/787.9b00b6b2.chunk.js.map"
+    "main.css": "/cybertracks/static/css/main.c781ab50.css",
+    "main.js": "/cybertracks/static/js/main.5f64c7ac.js",
+    "static/js/787.9b00b6b2.chunk.js": "/cybertracks/static/js/787.9b00b6b2.chunk.js",
+    "static/media/LinnDrum Crash.wav": "/cybertracks/static/media/LinnDrum Crash.89e03431388d594674d1.wav",
+    "static/media/LinnDrum Snare Tune 24.wav": "/cybertracks/static/media/LinnDrum Snare Tune 24.0413392f5c3fe8d09cd9.wav",
+    "static/media/LinnDrum Conga Tuning 8.wav": "/cybertracks/static/media/LinnDrum Conga Tuning 8.7c3cda74bf99647ec901.wav",
+    "static/media/LinnDrum Bass.wav": "/cybertracks/static/media/LinnDrum Bass.cf303b41f9f829fd2138.wav",
+    "static/media/LinnDrum HiHat Decay 8.wav": "/cybertracks/static/media/LinnDrum HiHat Decay 8.189647bc6f9a6b8131cf.wav",
+    "index.html": "/cybertracks/index.html",
+    "main.c781ab50.css.map": "/cybertracks/static/css/main.c781ab50.css.map",
+    "main.5f64c7ac.js.map": "/cybertracks/static/js/main.5f64c7ac.js.map",
+    "787.9b00b6b2.chunk.js.map": "/cybertracks/static/js/787.9b00b6b2.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.c781ab50.css",
-    "static/js/main.a2aed4fd.js"
+    "static/js/main.5f64c7ac.js"
   ]
 }
