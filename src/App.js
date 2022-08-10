@@ -19,7 +19,8 @@ import DrumTrack from "./components/DrumTrack"
 import linnKick from "./assets/LinnDrum Bass.wav";
 import linnSnare from "./assets/LinnDrum Snare Tune 24.wav";
 import linnHhClosed from "./assets/LinnDrum HiHat Decay 8.wav";
-
+import linnPerc from "./assets/LinnDrum Conga Tuning 8.wav";
+import linnCrash from "./assets/LinnDrum Crash.wav"
 
 const globalComp = new Tone.Compressor(-20, 4).toDestination();
 
@@ -38,6 +39,8 @@ const drums1 = new Tone.Sampler({
   C5: linnKick,
   D5: linnSnare,
   E5: linnHhClosed,
+  F5: linnPerc,
+  G5: linnCrash
 }).connect(drumMute);
 
 const drumPatches = [
@@ -316,7 +319,25 @@ class App extends React.Component {
           {time: "3:3:2", note: "E5"},
         ],
         "01-3 Perc": [
-
+          {time: "0:0:3", note: "F5"},
+          {time: "0:0:6", note: "F5"},
+          {time: "0:0:11", note: "F5"},
+          {time: "0:0:14", note: "F5"},
+          {time: "0:0:19", note: "F5"},
+          {time: "0:0:22", note: "F5"},
+          {time: "0:0:27", note: "F5"},
+          {time: "0:0:30", note: "F5"},
+          {time: "0:0:35", note: "F5"},
+          {time: "0:0:38", note: "F5"},
+          {time: "0:0:43", note: "F5"},
+          {time: "0:0:46", note: "F5"},
+          {time: "0:0:51", note: "F5"},
+          {time: "0:0:54", note: "F5"},
+          {time: "0:0:59", note: "F5"},
+          {time: "0:0:62", note: "F5"}
+        ],
+        "01-4 Crash": [
+          {time: "0:0:0", note: "G5"}
         ],
         "02 Bass": [
           {time: "0:0:0", note: "A1", velocity: 1, duration: 2},
@@ -361,18 +382,18 @@ class App extends React.Component {
           {time: "3:0:14", note: "F2", velocity: 1, duration: 2},
         ],
         "03 Lead": [
-          {time: "0:0:0", note: "F4", velocity: 0.2, duration: 6},
-          {time: "0:0:6", note: "E4", velocity: 0.2, duration: 6},
-          {time: "0:0:12", note: "A3", velocity: 0.2, duration: 4},
-          {time: "1:0:0", note: "F4", velocity: 0.2, duration: 6},
-          {time: "1:0:6", note: "E4", velocity: 0.2, duration: 6},
-          {time: "1:0:12", note: "A4", velocity: 0.2, duration: 4},
-          {time: "2:0:0", note: "C5", velocity: 0.2, duration: 6},
-          {time: "2:0:6", note: "A4", velocity: 0.2, duration: 6},
-          {time: "2:0:12", note: "F4", velocity: 0.2, duration: 4},
-          {time: "3:0:0", note: "E4", velocity: 0.2, duration: 6},
-          {time: "3:0:6", note: "F4", velocity: 0.2, duration: 6},
-          {time: "3:0:12", note: "C4", velocity: 0.2, duration: 4},
+          {time: "0:0:0", note: "F4", velocity: 0.6, duration: 6},
+          {time: "0:0:6", note: "E4", velocity: 0.6, duration: 6},
+          {time: "0:0:12", note: "A3", velocity: 0.6, duration: 4},
+          {time: "1:0:0", note: "F4", velocity: 0.6, duration: 6},
+          {time: "1:0:6", note: "E4", velocity: 0.6, duration: 6},
+          {time: "1:0:12", note: "A4", velocity: 0.6, duration: 4},
+          {time: "2:0:0", note: "C5", velocity: 0.6, duration: 6},
+          {time: "2:0:6", note: "A4", velocity: 0.6, duration: 6},
+          {time: "2:0:12", note: "F4", velocity: 0.6, duration: 4},
+          {time: "3:0:0", note: "E4", velocity: 0.6, duration: 6},
+          {time: "3:0:6", note: "F4", velocity: 0.6, duration: 6},
+          {time: "3:0:12", note: "C4", velocity: 0.6, duration: 4},
         ],
         "04 Arp": [
           {time: "0:0:0", note: "A4", velocity: 1, duration: 1},
@@ -441,10 +462,10 @@ class App extends React.Component {
           {time: "3:3:3", note: "A6", velocity: 1, duration: 1},
         ],
         "05 Keys": [
-          {time: "1:1:0", note: "C6", velocity: 1, duration: 1},
-          {time: "1:2:0", note: "B5", velocity: 1, duration: 1},
-          {time: "1:3:0", note: "G5", velocity: 1, duration: 1},
-          {time: "2:0:0", note: "A5", velocity: 1, duration: 1},
+          {time: "1:1:0", note: "C6", velocity: 0.6, duration: 8},
+          {time: "1:2:0", note: "B5", velocity: 0.6, duration: 8},
+          {time: "1:3:0", note: "G5", velocity: 0.6, duration: 8},
+          {time: "2:0:0", note: "A5", velocity: 0.6, duration: 8},
         ]
       }
     }
@@ -458,7 +479,7 @@ class App extends React.Component {
 
     this.duckSeq = new Tone.Part((time, value) => {
       ducking.gain.setValueAtTime(0, time);
-      ducking.gain.linearRampToValueAtTime(1, "+8n");
+      ducking.gain.linearRampToValueAtTime(1, `+${Tone.Time(Tone.Time("8n")).toSeconds() - 0.05}`);
     }, this.state.sequences["00 Ducking"]).start(0);
 
     this.kickSeq = new Tone.Part((time, value) => {
@@ -476,6 +497,10 @@ class App extends React.Component {
     this.percSeq = new Tone.Part((time, value) => {
       drumPatches[this.state.activePatchMap[0]].triggerAttackRelease(value.note, "16n", time);
     }, this.state.sequences["01-3 Perc"]).start(0);
+
+    this.crashSeq = new Tone.Part((time, value) => {
+      drumPatches[this.state.activePatchMap[0]].triggerAttackRelease(value.note, "1n", time, 0.5);
+    }, this.state.sequences["01-4 Crash"]).start(0);
     
     this.bassSeq = new Tone.Part((time, value) => {
       bassPatches[this.state.activePatchMap[1]].triggerAttackRelease(value.note, utils.sixteenthsToNotation(value.duration), time, value.velocity);
@@ -514,7 +539,8 @@ class App extends React.Component {
       this.kickSeq,
       this.snareSeq,
       this.hihatSeq,
-      this.percSeq
+      this.percSeq,
+      this.crashSeq
     ];
 
     this.muteNodes = [
@@ -624,6 +650,18 @@ class App extends React.Component {
         this.state.activePatchMap[2],
         n, 
         this.state.activePatchMap[4], 
+      ]
+    });
+  }
+
+  changeKeysPatch = (n) => {
+    this.setState({activePatchMap: 
+      [
+        this.state.activePatchMap[0], 
+        this.state.activePatchMap[1], 
+        this.state.activePatchMap[2],
+        this.state.activePatchMap[3], 
+        n, 
       ]
     });
   }
@@ -883,6 +921,14 @@ class App extends React.Component {
     return pages * 16 + beats * 4 + steps;
   }
 
+  updateMeters = () => {
+    this.drumRack.current.updateValue(drumMeter.getValue());
+    this.bassRack.current.updateValue(bassMeter.getValue());
+    this.leadRack.current.updateValue(leadMeter.getValue());
+    this.arpRack.current.updateValue(arpMeter.getValue());
+    this.keysRack.current.updateValue(keysMeter.getValue());
+  }
+
   componentDidMount() {
     Tone.Transport.loop = true;
     Tone.Transport.loopStart = 0;
@@ -901,23 +947,19 @@ class App extends React.Component {
       }, time);
     }, "4n");
 
-    setInterval(() => {
-      this.drumRack.current.updateValue(drumMeter.getValue());
-      this.bassRack.current.updateValue(bassMeter.getValue());
-      this.leadRack.current.updateValue(leadMeter.getValue());
-      this.arpRack.current.updateValue(arpMeter.getValue());
-      this.keysRack.current.updateValue(keysMeter.getValue());
-    }, 33);
+    this.meterInterval = setInterval(this.updateMeters, 33);
 
     document.addEventListener("keydown", this.keyboardHandler);
   }
 
   componentWillUnmount() {
     document.removeEventListener("keydown", this.keyboardHandler);
+    clearInterval(this.meterInterval);
     this.kickSeq.dispose();
     this.snareSeq.dispose();
     this.hihatSeq.dispose();
     this.percSeq.dispose();
+    this.crashSeq.dispose();
     this.bassSeq.dispose();
     this.arpSeq.dispose();
     this.leadSeq.dispose();
@@ -1068,6 +1110,13 @@ class App extends React.Component {
         state.sequences["01-3 Perc"].push(val);
       }
     }
+    state.sequences["01-4 Crash"] = [];
+    for (let i = 0; i < 128; i++) {
+      let val = this.crashSeq.at(`0:0:${i}`)?.value;
+      if (val) {
+        state.sequences["01-4 Crash"].push(val);
+      }
+    }
     state.sequences["02 Bass"] = [];
     for (let i = 0; i < 128; i++) {
       let val = this.bassSeq.at(`0:0:${i}`)?.value;
@@ -1139,6 +1188,10 @@ class App extends React.Component {
         newState.sequences["01-3 Perc"].forEach(event => {
           this.percSeq.add(event);
         });
+        this.crashSeq.clear();
+        newState.sequences["01-4 Crash"].forEach(event => {
+          this.crashSeq.add(event);
+        });
         this.bassSeq.clear();
         newState.sequences["02 Bass"].forEach(event => {
           this.bassSeq.add(event);
@@ -1198,7 +1251,7 @@ class App extends React.Component {
         </Toolbar>
         <div className="flex flex-col flex-grow w-full items-stretch">
           <div className="flex flex-row flex-grow items-stretch">
-            <DrumTrack number={0} name="Drums" focus={this.state.selected} sequences={[this.duckSeq, this.kickSeq, this.snareSeq, this.hihatSeq, this.percSeq]} active={step} page={this.state.viewingPage} clickHandler={this.moveTo} muted={this.state.mutes[0]} muteHandler={this.mute}></DrumTrack>
+            <DrumTrack number={0} name="Drums" focus={this.state.selected} sequences={[this.duckSeq, this.kickSeq, this.snareSeq, this.hihatSeq, this.percSeq, this.crashSeq]} active={step} page={this.state.viewingPage} clickHandler={this.moveTo} muted={this.state.mutes[0]} muteHandler={this.mute}></DrumTrack>
             <Track number={1} name="Bass" focus={this.state.selected} sequence={this.bassSeq} active={step} page={this.state.viewingPage} clickHandler={this.moveTo} muted={this.state.mutes[1]} muteHandler={this.mute}></Track>
             <Track number={2} name="Lead" focus={this.state.selected} sequence={this.leadSeq} active={step} page={this.state.viewingPage} clickHandler={this.moveTo} muted={this.state.mutes[2]} muteHandler={this.mute}></Track>
             <Track number={3} name="Arp" focus={this.state.selected} sequence={this.arpSeq} active={step} page={this.state.viewingPage} clickHandler={this.moveTo} muted={this.state.mutes[3]} muteHandler={this.mute}></Track>
