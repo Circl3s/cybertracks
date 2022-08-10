@@ -158,18 +158,19 @@ const keysMute = new Tone.Gain(1).connect(keysMeter);
 
 const keysPre = new Tone.Gain(0.5).connect(keysMute)
 
-const keysChorus = new Tone.Chorus(2, 0.04, 0.02).connect(keysPre)
+const keysChorus = new Tone.Chorus(20, 4, 4).connect(keysPre)
 
-const keysVibrato = new Tone.Vibrato(8, 0.1).connect(keysChorus);
+const keysVibrato = new Tone.Vibrato(4, 0.1).connect(keysChorus);
 
-const keys1 = new Tone.MonoSynth({
+const keys1 = new Tone.PolySynth(Tone.MonoSynth, {
   oscillator: {
     type: "sawtooth"
   },
   filter: {
     frequency: 400,
     type: "lowpass",
-    rolloff: -24
+    rolloff: -24,
+    Q: 0
   },
   filterEnvelope: {
     attack: 0.005,
@@ -248,71 +249,71 @@ class App extends React.Component {
       ],
       sequences: {
         "00 Ducking": [
-          ["0:0:0", "C5"],
-          ["0:1:0", "C5"],
-          ["0:2:0", "C5"],
-          ["0:3:0", "C5"],
-          ["1:0:0", "C5"],
-          ["1:1:0", "C5"],
-          ["1:2:0", "C5"],
-          ["1:3:0", "C5"],
-          ["2:0:0", "C5"],
-          ["2:1:0", "C5"],
-          ["2:2:0", "C5"],
-          ["2:3:0", "C5"],
-          ["3:0:0", "C5"],
-          ["3:1:0", "C5"],
-          ["3:2:0", "C5"],
-          ["3:3:0", "C5"],
+          {time: "0:0:0", note: "C5"},
+          {time: "0:1:0", note: "C5"},
+          {time: "0:2:0", note: "C5"},
+          {time: "0:3:0", note: "C5"},
+          {time: "1:0:0", note: "C5"},
+          {time: "1:1:0", note: "C5"},
+          {time: "1:2:0", note: "C5"},
+          {time: "1:3:0", note: "C5"},
+          {time: "2:0:0", note: "C5"},
+          {time: "2:1:0", note: "C5"},
+          {time: "2:2:0", note: "C5"},
+          {time: "2:3:0", note: "C5"},
+          {time: "3:0:0", note: "C5"},
+          {time: "3:1:0", note: "C5"},
+          {time: "3:2:0", note: "C5"},
+          {time: "3:3:0", note: "C5"},
         ],
         "01-0 Kick": [
-          ["0:0:0", "C5"],     
-          ["0:1:0", "C5"], 
-          ["0:2:0", "C5"], 
-          ["0:3:0", "C5"], 
-          ["1:0:0", "C5"], 
-          ["1:1:0", "C5"], 
-          ["1:2:0", "C5"], 
-          ["1:3:0", "C5"], 
-          ["2:0:0", "C5"], 
-          ["2:1:0", "C5"], 
-          ["2:2:0", "C5"], 
-          ["2:3:0", "C5"], 
-          ["3:0:0", "C5"], 
-          ["3:1:0", "C5"], 
-          ["3:2:0", "C5"], 
-          ["3:3:0", "C5"],
-          ["3:3:1", "C5"], 
-          ["3:3:3", "C5"], 
+          {time: "0:0:0", note: "C5"},     
+          {time: "0:1:0", note: "C5"}, 
+          {time: "0:2:0", note: "C5"}, 
+          {time: "0:3:0", note: "C5"}, 
+          {time: "1:0:0", note: "C5"}, 
+          {time: "1:1:0", note: "C5"}, 
+          {time: "1:2:0", note: "C5"}, 
+          {time: "1:3:0", note: "C5"}, 
+          {time: "2:0:0", note: "C5"}, 
+          {time: "2:1:0", note: "C5"}, 
+          {time: "2:2:0", note: "C5"}, 
+          {time: "2:3:0", note: "C5"}, 
+          {time: "3:0:0", note: "C5"}, 
+          {time: "3:1:0", note: "C5"}, 
+          {time: "3:2:0", note: "C5"}, 
+          {time: "3:3:0", note: "C5"},
+          {time: "3:3:1", note: "C5"}, 
+          {time: "3:3:3", note: "C5"}, 
         ],
         "01-1 Snare": [
-          ["0:1:0", "D5"],
-          ["0:3:0", "D5"],
-          ["1:1:0", "D5"], 
-          ["1:2:2", "D5"],
-          ["1:3:0", "D5"],
-          ["2:1:0", "D5"], 
-          ["2:3:0", "D5"],
-          ["3:1:0", "D5"], 
-          ["3:3:0", "D5"], 
+          {time: "0:1:0", note: "D5"},
+          {time: "0:3:0", note: "D5"},
+          {time: "1:1:0", note: "D5"}, 
+          {time: "1:2:2", note: "D5"},
+          {time: "1:3:0", note: "D5"},
+          {time: "2:1:0", note: "D5"}, 
+          {time: "2:3:0", note: "D5"},
+          {time: "3:1:0", note: "D5"}, 
+          {time: "3:3:0", note: "D5"}, 
         ],
         "01-2 Hi-Hat": [
-          ["0:0:2", "E5"],
-          ["0:1:2", "E5"],
-          ["0:2:2", "E5"],
-          ["0:3:2", "E5"],
-          ["1:0:2", "E5"],
-          ["1:1:2", "E5"],
-          ["1:2:2", "E5"],
-          ["1:3:2", "E5"],
-          ["2:0:2", "E5"],
-          ["2:1:2", "E5"],
-          ["2:2:2", "E5"],
-          ["2:3:2", "E5"],
-          ["3:0:2", "E5"],
-          ["3:1:2", "E5"],
-          ["3:2:2", "E5"],
-          ["3:3:2", "E5"],
+          {time: "0:0:2", note: "E5"},
+          {time: "0:1:2", note: "E5"},
+          {time: "0:2:2", note: "E5"},
+          {time: "0:3:2", note: "E5"},
+          {time: "1:0:2", note: "E5"},
+          {time: "1:1:2", note: "E5"},
+          {time: "1:2:2", note: "E5"},
+          {time: "1:3:2", note: "E5"},
+          {time: "2:0:2", note: "E5"},
+          {time: "2:1:2", note: "E5"},
+          {time: "2:2:2", note: "E5"},
+          {time: "2:3:2", note: "E5"},
+          {time: "3:0:2", note: "E5"},
+          {time: "3:1:2", note: "E5"},
+          {time: "3:2:2", note: "E5"},
+          {time: "3:3:2", note: "E5"},
         ],
         "01-3 Perc": [
 
@@ -455,25 +456,25 @@ class App extends React.Component {
     this.arpRack = React.createRef();
     this.keysRack = React.createRef();
 
-    this.duckSeq = new Tone.Part((time, note) => {
+    this.duckSeq = new Tone.Part((time, value) => {
       ducking.gain.setValueAtTime(0, time);
       ducking.gain.linearRampToValueAtTime(1, "+8n");
     }, this.state.sequences["00 Ducking"]).start(0);
 
-    this.kickSeq = new Tone.Part((time, note) => {
-      drumPatches[this.state.activePatchMap[0]].triggerAttackRelease(note, "16n", time);
+    this.kickSeq = new Tone.Part((time, value) => {
+      drumPatches[this.state.activePatchMap[0]].triggerAttackRelease(value.note, "16n", time);
     }, this.state.sequences["01-0 Kick"]).start(0);
 
-    this.snareSeq = new Tone.Part((time, note) => {
-      drumPatches[this.state.activePatchMap[0]].triggerAttackRelease(note, "16n", time);
+    this.snareSeq = new Tone.Part((time, value) => {
+      drumPatches[this.state.activePatchMap[0]].triggerAttackRelease(value.note, "16n", time);
     }, this.state.sequences["01-1 Snare"]).start(0);
 
-    this.hihatSeq = new Tone.Part((time, note) => {
-      drumPatches[this.state.activePatchMap[0]].triggerAttackRelease(note, "16n", time);
+    this.hihatSeq = new Tone.Part((time, value) => {
+      drumPatches[this.state.activePatchMap[0]].triggerAttackRelease(value.note, "16n", time);
     }, this.state.sequences["01-2 Hi-Hat"]).start(0);
 
-    this.percSeq = new Tone.Part((time, note) => {
-      drumPatches[this.state.activePatchMap[0]].triggerAttackRelease(note, "16n", time);
+    this.percSeq = new Tone.Part((time, value) => {
+      drumPatches[this.state.activePatchMap[0]].triggerAttackRelease(value.note, "16n", time);
     }, this.state.sequences["01-3 Perc"]).start(0);
     
     this.bassSeq = new Tone.Part((time, value) => {
@@ -701,6 +702,7 @@ class App extends React.Component {
           if (e.ctrlKey) {
             this.trackMap[this.state.selected[0]].remove(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16));
             this.trackMap[this.state.selected[0]].add(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16), {
+              time: utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16),
               note: oldNote.value.note, 
               velocity: newVelocity, 
               duration: oldNote.value.duration ?? this.state.defaultDuration
@@ -709,6 +711,7 @@ class App extends React.Component {
             const newNote = oldNote.value.note.replace(/[0-9]/, e.key);
             this.trackMap[this.state.selected[0]].remove(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16));
             this.trackMap[this.state.selected[0]].add(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16), {
+              time: utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16),
               note: newNote, 
               velocity: oldNote.value.velocity ?? this.state.defaultVelocity, 
               duration: oldNote.value.duration ?? this.state.defaultDuration
@@ -731,6 +734,7 @@ class App extends React.Component {
         if (oldNote) {
           this.trackMap[this.state.selected[0]].remove(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16));
           this.trackMap[this.state.selected[0]].add(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16), {
+            time: utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16),
             note: oldNote.value.note, 
             velocity: oldNote.value.velocity ?? this.state.defaultVelocity, 
             duration: newDuration
@@ -745,6 +749,7 @@ class App extends React.Component {
           if (e.ctrlKey) {
             this.trackMap[this.state.selected[0]].remove(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16));
             this.trackMap[this.state.selected[0]].add(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16), {
+              time: utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16),
               note: oldNote.value.note, 
               velocity: utils.clamp((oldNote.value.velocity - 0.1).toFixed(1), 0.1, 1), 
               duration: oldNote.value.duration ?? this.state.defaultDuration
@@ -755,6 +760,7 @@ class App extends React.Component {
             const newNote = oldNote.value.note.replace(/[0-9]/, newOctave);
             this.trackMap[this.state.selected[0]].remove(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16));
             this.trackMap[this.state.selected[0]].add(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16), {
+              time: utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16),
               note: newNote, 
               velocity: oldNote.value.velocity ?? this.state.defaultVelocity, 
               duration: oldNote.value.duration ?? this.state.defaultDuration
@@ -778,6 +784,7 @@ class App extends React.Component {
           if (e.ctrlKey) {
             this.trackMap[this.state.selected[0]].remove(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16));
             this.trackMap[this.state.selected[0]].add(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16), {
+              time: utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16),
               note: oldNote.value.note, 
               velocity: utils.clamp((parseFloat(oldNote.value.velocity) + 0.1).toFixed(1), 0.1, 1.0), 
               duration: oldNote.value.duration ?? this.state.defaultDuration
@@ -788,6 +795,7 @@ class App extends React.Component {
             const newNote = oldNote.value.note.replace(/[0-9]/, newOctave);
             this.trackMap[this.state.selected[0]].remove(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16));
             this.trackMap[this.state.selected[0]].add(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16), {
+              time: utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16),
               note: newNote, 
               velocity: oldNote.value.velocity ?? this.state.defaultVelocity, 
               duration: oldNote.value.duration ?? this.state.defaultDuration
@@ -810,6 +818,7 @@ class App extends React.Component {
         if (oldNote) {
           this.trackMap[this.state.selected[0]].remove(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16));
           this.trackMap[this.state.selected[0]].add(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16), {
+            time: utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16),
             note: oldNote.value.note, 
             velocity: oldNote.value.velocity ?? this.state.defaultVelocity, 
             duration: utils.clamp((oldNote.value.duration - 1), 1, 64)
@@ -824,6 +833,7 @@ class App extends React.Component {
         if (oldNote) {
           this.trackMap[this.state.selected[0]].remove(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16));
           this.trackMap[this.state.selected[0]].add(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16), {
+            time: utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16),
             note: oldNote.value.note, 
             velocity: oldNote.value.velocity ?? this.state.defaultVelocity, 
             duration: utils.clamp((oldNote.value.duration + 1), 1, 64)
@@ -840,6 +850,7 @@ class App extends React.Component {
           const oldNote = this.trackMap[this.state.selected[0]].at(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16));
           this.trackMap[this.state.selected[0]].remove(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16));
           this.trackMap[this.state.selected[0]].add(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16), {
+            time: utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16),
             note: note, 
             velocity: oldNote?.value.velocity ?? this.state.defaultVelocity, 
             duration: oldNote?.value.duration ?? this.state.defaultDuration
@@ -855,7 +866,10 @@ class App extends React.Component {
           if (oldNote) {
             this.drumMap[index].remove(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16));
           } else {
-            this.drumMap[index].add(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16), drum);
+            this.drumMap[index].add(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16), {
+              time: utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16),
+              note: drum
+            });
           }
         }
         this.moveInPlace();
@@ -1015,11 +1029,152 @@ class App extends React.Component {
     }); 
   }
 
+  // dumb
+
+  export = () => {
+    let state = this.state;
+    state.sequences["00 Ducking"] = [];
+    for (let i = 0; i < 128; i++) {
+      let val = this.duckSeq.at(`0:0:${i}`)?.value;
+      if (val) {
+        state.sequences["00 Ducking"].push(val);
+      }
+    }
+    state.sequences["01-0 Kick"] = [];
+    for (let i = 0; i < 128; i++) {
+      let val = this.kickSeq.at(`0:0:${i}`)?.value;
+      if (val) {
+        state.sequences["01-0 Kick"].push(val);
+      }
+    }
+    state.sequences["01-1 Snare"] = [];
+    for (let i = 0; i < 128; i++) {
+      let val = this.snareSeq.at(`0:0:${i}`)?.value;
+      if (val) {
+        state.sequences["01-1 Snare"].push(val);
+      }
+    }
+    state.sequences["01-2 Hi-Hat"] = [];
+    for (let i = 0; i < 128; i++) {
+      let val = this.hihatSeq.at(`0:0:${i}`)?.value;
+      if (val) {
+        state.sequences["01-2 Hi-Hat"].push(val);
+      }
+    }
+    state.sequences["01-3 Perc"] = [];
+    for (let i = 0; i < 128; i++) {
+      let val = this.percSeq.at(`0:0:${i}`)?.value;
+      if (val) {
+        state.sequences["01-3 Perc"].push(val);
+      }
+    }
+    state.sequences["02 Bass"] = [];
+    for (let i = 0; i < 128; i++) {
+      let val = this.bassSeq.at(`0:0:${i}`)?.value;
+      if (val) {
+        state.sequences["02 Bass"].push(val);
+      }
+    }
+    state.sequences["03 Lead"] = [];
+    for (let i = 0; i < 128; i++) {
+      let val = this.leadSeq.at(`0:0:${i}`)?.value;
+      if (val) {
+        state.sequences["03 Lead"].push(val);
+      }
+    }
+    state.sequences["04 Arp"] = [];
+    for (let i = 0; i < 128; i++) {
+      let val = this.arpSeq.at(`0:0:${i}`)?.value;
+      if (val) {
+        state.sequences["04 Arp"].push(val);
+      }
+    }
+    state.sequences["05 Keys"] = [];
+    for (let i = 0; i < 128; i++) {
+      let val = this.keysSeq.at(`0:0:${i}`)?.value;
+      if (val) {
+        state.sequences["05 Keys"].push(val);
+      }
+    }
+
+    state.showHelp = false;
+    state.playing = false;
+    state.paused = false;
+    state.time = "0:0:0";
+
+    const blob = new Blob([JSON.stringify(state)], {type: 'application/json'});
+    const elem = document.createElement("a");
+    elem.href = URL.createObjectURL(blob, {oneTimeOnly: true});
+    elem.download = "untitled.json.cbt";
+    elem.style.display = "none";
+    elem.click();
+  }
+
+  import = () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".cbt";
+    input.onchange = (e) => {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.addEventListener("load", () => {
+        const newState = JSON.parse(reader.result);
+        this.duckSeq.clear();
+        newState.sequences["00 Ducking"].forEach(event => {
+          this.duckSeq.add(event);
+        });
+        this.kickSeq.clear();
+        newState.sequences["01-0 Kick"].forEach(event => {
+          this.kickSeq.add(event);
+        });
+        this.snareSeq.clear();
+        newState.sequences["01-1 Snare"].forEach(event => {
+          this.snareSeq.add(event);
+        });
+        this.hihatSeq.clear();
+        newState.sequences["01-2 Hi-Hat"].forEach(event => {
+          this.hihatSeq.add(event);
+        });
+        this.percSeq.clear();
+        newState.sequences["01-3 Perc"].forEach(event => {
+          this.percSeq.add(event);
+        });
+        this.bassSeq.clear();
+        newState.sequences["02 Bass"].forEach(event => {
+          this.bassSeq.add(event);
+        });
+        this.leadSeq.clear();
+        newState.sequences["03 Lead"].forEach(event => {
+          this.leadSeq.add(event);
+        });
+        this.arpSeq.clear();
+        newState.sequences["04 Arp"].forEach(event => {
+          this.arpSeq.add(event);
+        });
+        this.keysSeq.clear();
+        newState.sequences["05 Keys"].forEach(event => {
+          this.keysSeq.add(event);
+        });
+
+        this.drumRack.current.updateVolumeSlider(newState.volumes[0]);
+        this.bassRack.current.updateVolumeSlider(newState.volumes[1]);
+        this.leadRack.current.updateVolumeSlider(newState.volumes[2]);
+        this.arpRack.current.updateVolumeSlider(newState.volumes[3]);
+        this.keysRack.current.updateVolumeSlider(newState.volumes[4]);
+
+        this.setState(newState);
+      });
+      reader.readAsText(file);
+      e.target.value = null;
+    }
+    input.click();
+  }
+
   render() {
     const step = this.getActiveStepIndex();
     return (
       <div className="h-full flex flex-col items-stretch">
-        <HelpOverlay onClick={() => this.setState({showHelp: false})} show={this.state.showHelp} />
+        <HelpOverlay onClick={() => this.setState({showHelp: false})} exportCallback={this.export} importCallback={this.import} show={this.state.showHelp} />
         <Veil callback={this.begin} visible={this.state.began} />
         <Toolbar>
           <div className="flex flex-row items-center w-1/3">

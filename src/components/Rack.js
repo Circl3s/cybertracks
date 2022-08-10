@@ -6,10 +6,16 @@ class Rack extends React.Component {
         this.state = {
             value: -100
         }
+
+        this.sliderRef = React.createRef();
     }
 
     updateValue = (value) => {
         this.setState({value: value});
+    }
+
+    updateVolumeSlider = (volume) => {
+        this.sliderRef.current.value = volume;
     }
 
     reset = (e) => {
@@ -44,7 +50,7 @@ class Rack extends React.Component {
                 </div>
                 <div className="relative flex flex-row my-2 w-full h-2 bg-slate-900 rounded-lg">
                     <div className={`flex flex-row ${!this.props.muted ? "bg-green-400" : "bg-slate-600"} rounded-lg`} style={{width: this.state.value + 100 + "%"}} />
-                    <input className="absolute -top-1 w-full" type="range" min="0" max="1.25" step="0.01" defaultValue="1" onChange={(e) => this.props.changeVolume(this.props.number, e.target.value)} onMouseDown={this.reset} />
+                    <input ref={this.sliderRef} className="absolute -top-1 w-full" type="range" min="0" max="1.25" step="0.01" defaultValue="1" onChange={(e) => this.props.changeVolume(this.props.number, e.target.value)} onMouseDown={this.reset} />
                 </div>
             </div>
         )

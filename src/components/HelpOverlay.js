@@ -69,6 +69,14 @@ function HelpOverlay(props) {
     return (
         <div onClick={props.onClick} className={`absolute z-10 w-full h-full text-slate-50 bg-slate-900 bg-opacity-80 flex flex-col justify-start items-center ${props.show ? "" : "hidden"}`}>
             <h1 className="text-4xl font-['Major_Mono_Display']">cybertrAcks</h1>
+            <div className="flex flex-row items-center font-['VT323']">
+                <button className="flex flex-row items-center text-slate-50 bg-slate-700 hover:bg-slate-600 active:bg-slate-800 m-2 p-2 rounded-md shadow-md duration-75" onClick={props.exportCallback}>
+                    <span className="material-icons">file_download</span> Export
+                </button>
+                <button className="flex flex-row items-center text-slate-50 bg-slate-700 hover:bg-slate-600 active:bg-slate-800 m-2 p-2 rounded-md shadow-md duration-75" onClick={props.importCallback}>
+                    <span className="material-icons">file_upload</span> Import
+                </button>
+            </div>
             <p className="font-['VT323'] text-xl m-1">(Hover over the controls to see additional tips)</p>
             {legend.map(({ key, desc, tip }) => (
                 <p key={key} className="font-['VT323'] text-xl m-1" title={tip}><kbd className="bg-slate-800 text-xl p-1 rounded-md font-['VT323'] uppercase">{key}</kbd>: {desc}</p>
