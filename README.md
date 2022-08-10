@@ -9,14 +9,14 @@ Cybertracks is a simple tracker-style music creation tool for the web built with
 ## Features
 - [x] 5 tracks: Drums, Bass, Lead, Arp and Keys
 - [x] 8-bar sequencer
-- [x] Choose from 4 patches on every track
+- [ ] Choose from 4 patches on every track
 - [x] Change the tempo
 - [x] Change the velocity and length of each step
 - [x] Reverb send
 - [x] Ducking
 - [x] Keyboard-only sequence programming
-- [ ] Volume and mute per-track
-- [ ] Project export and import
+- [x] Volume and mute per-track
+- [x] Project export and import
 
 ## Contributing
 You can contribute if you want; open an issue or create a pull request.
