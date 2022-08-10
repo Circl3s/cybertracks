@@ -4,7 +4,8 @@ on:
   push:
     branches: [master]
   workflow_dispatch:
-
+permissions:
+  contents: write
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -19,7 +20,7 @@ jobs:
       - run: npm ci
       - run: npm run build --if-present
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@4.1.4
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: deploy
           folder: build
