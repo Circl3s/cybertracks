@@ -76,4 +76,6 @@ function clamp(value, min, max) {
     return Math.min(max, Math.max(min, value));
 }
 
-export default {sixteenthsToNotation, notationToSixteenths, keyboardToNote, clamp, drumLetters, keyboardToDrum, lengthLetters};
+let exports = {sixteenthsToNotation, notationToSixteenths, keyboardToNote, clamp, drumLetters, keyboardToDrum, lengthLetters}
+
+export default exports;
