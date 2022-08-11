@@ -40,10 +40,10 @@ class Rack extends React.Component {
                                 })}
                             </div>
                             <div className="flex flex-row items-center">
-                                <input type="button" className={`h-8 w-8 mx-2 cursor-pointer outline-none rounded-lg ${this.props.activeReverb ? "bg-blue-700 hover:bg-blue-600 active:bg-blue-800" : "bg-slate-700 hover:bg-slate-600 active:bg-slate-800"} border-[1px] border-transparent active:border-slate-700 shadow-md active:shadow-inner flex justify-center items-center duration-75`} value="R" title="Reverb send" onClick={() => this.props.reverbHandler(this.props.number)} />
-                                {this.props.number !== 0 &&
-                                    <input type="button" className={`h-8 w-8 mx-2 cursor-pointer outline-none rounded-lg ${this.props.activeDucking ? "bg-green-700 hover:bg-green-600 active:bg-green-800" : "bg-slate-700 hover:bg-slate-600 active:bg-slate-800"} border-[1px] border-transparent active:border-slate-700 shadow-md active:shadow-inner flex justify-center items-center duration-75`} value="D" title="Ducking" />
-                                }
+                                <button className={`h-8 w-8 mx-2 cursor-pointer outline-none rounded-lg ${this.props.activeReverb ? "bg-blue-700 hover:bg-blue-600 active:bg-blue-800" : "bg-slate-700 hover:bg-slate-600 active:bg-slate-800"} border-[1px] border-transparent active:border-slate-700 shadow-md active:shadow-inner flex justify-center items-center duration-75`} title="Reverb send" onClick={() => this.props.reverbHandler(this.props.number)}>R</button>
+                                {/* {this.props.number !== 0 &&
+                                    <button className={`h-8 w-8 mx-2 cursor-pointer outline-none rounded-lg ${this.props.activeDucking ? "bg-green-700 hover:bg-green-600 active:bg-green-800" : "bg-slate-700 hover:bg-slate-600 active:bg-slate-800"} border-[1px] border-transparent active:border-slate-700 shadow-md active:shadow-inner flex justify-center items-center duration-75`} title="Ducking">D</button>
+                                } */}
                             </div>
                         </div>
                     </div>

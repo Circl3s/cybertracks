@@ -723,6 +723,7 @@ class App extends React.Component {
           this.snareSeq.remove(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16))
           this.hihatSeq.remove(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16))
           this.percSeq.remove(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16))
+          this.crashSeq.remove(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16))
         } else {
           this.trackMap[this.state.selected[0]].remove(utils.sixteenthsToNotation(this.state.selected[1] + this.state.viewingPage * 16));
         }
@@ -1026,6 +1027,7 @@ class App extends React.Component {
   }
 
   changeAutoFollow = (e) => {
+    document.activeElement.blur();
     this.setState({autoFollow: e.target.checked});
   }
 
@@ -1221,6 +1223,8 @@ class App extends React.Component {
         this.leadRack.current.updateVolumeSlider(newState.volumes[2]);
         this.arpRack.current.updateVolumeSlider(newState.volumes[3]);
         this.keysRack.current.updateVolumeSlider(newState.volumes[4]);
+
+        Tone.Transport.bpm.value = newState.bpm;
 
         this.setState(newState);
       });
