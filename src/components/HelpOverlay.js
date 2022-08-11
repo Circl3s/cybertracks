@@ -63,7 +63,7 @@ function HelpOverlay(props) {
     ]
     return (
         <div onClick={props.onClick} className={`absolute z-10 w-full h-full text-slate-50 bg-slate-900 bg-opacity-80 flex flex-col justify-start items-center ${props.show ? "" : "hidden"} overflow-y-auto`}>
-            <h1 className="text-4xl font-['Major_Mono_Display']">cybertrAcks</h1>
+            <h1 className="text-4xl font-['Major_Mono_Display'] mt-2">cybertrAcks</h1>
             <div className="flex flex-row items-center font-['VT323']">
                 <button className="flex flex-row items-center text-slate-50 bg-slate-700 hover:bg-slate-600 active:bg-slate-800 m-2 p-2 rounded-md shadow-md duration-75" onClick={props.exportCallback}>
                     <span className="material-icons -ml-1 mr-1">file_download</span> Save

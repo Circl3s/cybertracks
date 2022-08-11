@@ -1242,7 +1242,7 @@ class App extends React.Component {
         <Veil callback={this.begin} visible={this.state.began} />
         <Toolbar>
           <div className="flex flex-row items-center w-1/3">
-            <h1 className="m-4 text-2xl font-['Major_Mono_Display']" onClick={() => this.setState({showHelp: true})}>cybertrAcks</h1>
+            <h1 className="m-4 p-1 text-2xl font-['Major_Mono_Display'] rounded-md hover:shadow-md hover:shadow-green-400 duration-200 cursor-pointer hover:-translate-y-1" onClick={() => this.setState({showHelp: true})}>cybertrAcks</h1>
             <div className="flex flex-row items-center">
               <DefaultParameterField min="0" max="9" name="Octave" value={this.state.defaultOctave} color="red" onChange={(e) => this.updateDefaultOctave(e.currentTarget.value)} />
               <DefaultParameterField min="0" max="9" name="Velocity" value={this.state.defaultVelocity * 10 - 1} color="green" onChange={(e) => this.updateDefaultVelocity((parseInt(e.currentTarget.value) + 1) / 10)} />
