@@ -1,6 +1,4 @@
 # Cybertracks
-**Work In Progress: when this project achieves minimum usability it will be hosted on github.io.**
-
 In the late '80s, the electronic music scene was forever changed by the conception of music trackers on the Amiga. They presented a unique way of creating electronic music on home computers. While largely forgotten these days, I wanted to honor the specific workflow of trackers in this project.
 
 ## What is it?
