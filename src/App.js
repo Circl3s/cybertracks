@@ -999,18 +999,20 @@ class App extends React.Component {
     
     Tone.Transport.bpm.value = this.state.bpm;
     Tone.Transport.scheduleRepeat((time) => {
+      const dispTime = Tone.Transport.position.split(".")[0]
       Tone.Draw.schedule(() => {
-        const activePage = parseInt(Tone.Transport.position.split(":")[0]);
-        this.setState({time: Tone.Transport.position.split(".")[0], activePage: activePage, viewingPage: this.state.autoFollow ? activePage : this.state.viewingPage});
+        this.setState({time: dispTime});
       }, time);
     }, "16n");
     Tone.Transport.scheduleRepeat((time) => {
+      const activePage = parseInt(Tone.Transport.position.split(":")[0]) % this.state.pages;
       Tone.Draw.schedule(() => {
+        this.setState({activePage: activePage, viewingPage: this.state.autoFollow ? activePage : this.state.viewingPage})
         this.tempoLED.current.blinkLed();
       }, time);
     }, "4n");
 
-    this.meterInterval = setInterval(this.updateMeters, 33);
+    this.meterInterval = setInterval(this.updateMeters, 22);
 
     document.addEventListener("keydown", this.keyboardHandler);
   }
