@@ -21,3 +21,4 @@ You can contribute if you want; open an issue or create a pull request.
 
 ## Credits
 [Alex Ball](https://www.youtube.com/watch?v=OltD7omY0ew) - LinnDrum samples
+[Michael Fischer](http://smd-records.com/tr808/?page_id=14) - TR-808 samples
