@@ -1,20 +1,25 @@
 {
   "files": {
     "main.css": "/cybertracks/static/css/main.50a990cd.css",
-    "main.js": "/cybertracks/static/js/main.77fde703.js",
+    "main.js": "/cybertracks/static/js/main.e77dcb43.js",
     "static/js/787.9b00b6b2.chunk.js": "/cybertracks/static/js/787.9b00b6b2.chunk.js",
+    "static/media/CY.wav": "/cybertracks/static/media/CY.d961038ad48baa0328a9.wav",
+    "static/media/CB.wav": "/cybertracks/static/media/CB.c4db3c353af228e9666a.wav",
     "static/media/LinnDrum Crash.wav": "/cybertracks/static/media/LinnDrum Crash.89e03431388d594674d1.wav",
+    "static/media/BD.wav": "/cybertracks/static/media/BD.8658f3969d33ca1f2c13.wav",
+    "static/media/SD.wav": "/cybertracks/static/media/SD.d2bd06a96284e5ba8c89.wav",
+    "static/media/CH.wav": "/cybertracks/static/media/CH.2ece8baac628acaf3adf.wav",
     "static/media/LinnDrum Snare Tune 24.wav": "/cybertracks/static/media/LinnDrum Snare Tune 24.0413392f5c3fe8d09cd9.wav",
     "static/media/LinnDrum Conga Tuning 8.wav": "/cybertracks/static/media/LinnDrum Conga Tuning 8.7c3cda74bf99647ec901.wav",
     "static/media/LinnDrum Bass.wav": "/cybertracks/static/media/LinnDrum Bass.cf303b41f9f829fd2138.wav",
     "static/media/LinnDrum HiHat Decay 8.wav": "/cybertracks/static/media/LinnDrum HiHat Decay 8.189647bc6f9a6b8131cf.wav",
     "index.html": "/cybertracks/index.html",
     "main.50a990cd.css.map": "/cybertracks/static/css/main.50a990cd.css.map",
-    "main.77fde703.js.map": "/cybertracks/static/js/main.77fde703.js.map",
+    "main.e77dcb43.js.map": "/cybertracks/static/js/main.e77dcb43.js.map",
     "787.9b00b6b2.chunk.js.map": "/cybertracks/static/js/787.9b00b6b2.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.50a990cd.css",
-    "static/js/main.77fde703.js"
+    "static/js/main.e77dcb43.js"
   ]
 }
