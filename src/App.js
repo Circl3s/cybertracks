@@ -1281,6 +1281,7 @@ class App extends React.Component {
         this.keysRack.current.updateVolumeSlider(newState.volumes[4]);
 
         Tone.Transport.bpm.value = newState.bpm;
+        Tone.Transport.loopEnd = newState.pages + "m";
 
         this.setState(newState);
       });
