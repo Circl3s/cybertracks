@@ -15,12 +15,12 @@ function Paginator(props) {
                 </button>
             })}
                 <div className="flex flex-stretch">
-                    <button className={`flex flex-stretch h-min m-1 px-2 outline-none rounded-lg bg-slate-700 hover:bg-slate-600 active:bg-slate-800 border-[1px] border-transparent active:border-slate-700 shadow-md active:shadow-inner flex justify-center items-center duration-75 disabled:opacity-25`} onClick={() => props.removePageCallback()} disabled={props.pages === 1}>
+                    <button className={`flex flex-stretch h-min m-1 px-2 outline-none rounded-lg bg-slate-700 hover:bg-slate-600 active:bg-slate-800 border-[1px] border-transparent active:border-slate-700 shadow-md active:shadow-inner justify-center items-center duration-75 disabled:opacity-25`} onClick={() => props.removePageCallback()} disabled={props.pages === 1}>
                         <span>
                             -
                         </span>
                     </button>
-                    <button className={`flex flex-stretch h-min m-1 px-2 outline-none rounded-lg bg-slate-700 hover:bg-slate-600 active:bg-slate-800 border-[1px] border-transparent active:border-slate-700 shadow-md active:shadow-inner flex justify-center items-center duration-75 disabled:opacity-25`} onClick={() => props.addPageCallback()} disabled={props.pages === 8}>
+                    <button className={`flex flex-stretch h-min m-1 px-2 outline-none rounded-lg bg-slate-700 hover:bg-slate-600 active:bg-slate-800 border-[1px] border-transparent active:border-slate-700 shadow-md active:shadow-inner justify-center items-center duration-75 disabled:opacity-25`} onClick={() => props.addPageCallback()} disabled={props.pages === 8}>
                         <span>
                             +
                         </span>

@@ -2,7 +2,7 @@ import Step from "./Step";
 
 function Track(props) {
     return (
-        <div className="flex flex-col min-w-fit items-stretch border-2 bg-slate-800 border-slate-800 font-['VT323']">
+        <div className="flex flex-col items-stretch border-2 bg-slate-800 border-slate-800 font-['VT323']">
             <div>
                 <div className="flex flex-row justify-between items-center px-2">
                     <h1 className="text-slate-100 text-2xl">{props.number.toString().padStart(2, "0")} {props.name}</h1>

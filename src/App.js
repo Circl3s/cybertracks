@@ -256,6 +256,7 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
+      unsupported: (window.innerWidth < 1200 || window.innerHeight < 700 || window.innerWidth < window.innerHeight),
       began: false,
       showHelp: false,
       playing: false,
@@ -1047,10 +1048,12 @@ class App extends React.Component {
   }
 
   begin = () => {
-    Tone.start();
-    this.setState({
-      began: true
-    });
+    if (!this.state.unsupported) {
+      Tone.start();
+      this.setState({
+        began: true
+      });
+    }
   }
 
   play = () => {
@@ -1296,9 +1299,9 @@ class App extends React.Component {
   render() {
     const step = this.getActiveStepIndex();
     return (
-      <div className="h-full flex flex-col items-stretch">
+      <div className="h-full flex flex-col items-stretch overflow-hidden">
         <HelpOverlay onClick={() => this.setState({showHelp: false})} exportCallback={this.export} importCallback={this.import} show={this.state.showHelp} />
-        <Veil callback={this.begin} visible={this.state.began} />
+        <Veil callback={this.begin} visible={this.state.began} unsupported={this.state.unsupported} />
         <Toolbar>
           <div className="flex flex-row items-center w-1/3">
             <h1 className="m-4 p-1 text-2xl font-['Major_Mono_Display'] rounded-md hover:shadow-md hover:shadow-green-400 duration-200 cursor-pointer hover:-translate-y-1" onClick={() => this.setState({showHelp: true})}>cybertrAcks</h1>
@@ -1327,7 +1330,7 @@ class App extends React.Component {
             <Track number={3} name="Arp" focus={this.state.selected} sequence={this.arpSeq} active={step} page={this.state.viewingPage} clickHandler={this.moveTo} muted={this.state.mutes[3]} muteHandler={this.mute}></Track>
             <Track number={4} name="Keys" focus={this.state.selected} sequence={this.keysSeq} active={step} page={this.state.viewingPage} clickHandler={this.moveTo} muted={this.state.mutes[4]} muteHandler={this.mute}></Track>
             <Paginator pages={this.state.pages} addPageCallback={this.addPage} removePageCallback={this.removePage} activePage={this.state.activePage} viewingPage={this.state.viewingPage} follow={this.state.autoFollow} onChange={this.changeAutoFollow} viewCallback={this.changeView} />
-            <div className="flex w-full flex-col justify-self-stretch bg-slate-800">
+            <div className="flex flex-col flex-grow justify-self-stretch bg-slate-800">
               <Rack ref={this.drumRack} number={0} name="Drums" patches={drumPatches} activePatch={this.state.activePatchMap[0]} activeReverb={this.state.reverb[0]} reverbHandler={this.toggleReverb} changePatch={this.changeDrumPatch} changeVolume={this.changeVolume} muted={this.state.mutes[0]} />
               <Rack ref={this.bassRack} number={1} name="Bass" patches={bassPatches} activePatch={this.state.activePatchMap[1]} activeReverb={this.state.reverb[1]} reverbHandler={this.toggleReverb} activeDucking={this.state.ducking[1]} changePatch={this.changeBassPatch} changeVolume={this.changeVolume} muted={this.state.mutes[1]} />
               <Rack ref={this.leadRack} number={2} name="Lead" patches={leadPatches} activePatch={this.state.activePatchMap[2]} activeReverb={this.state.reverb[2]} reverbHandler={this.toggleReverb} activeDucking={this.state.ducking[2]} changePatch={this.changeLeadPatch} changeVolume={this.changeVolume} muted={this.state.mutes[2]} />
