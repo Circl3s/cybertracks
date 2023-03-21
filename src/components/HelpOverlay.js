@@ -81,7 +81,7 @@ function HelpOverlay(props) {
                 <div className="bg-slate-800 px-2 py-4 m-1 rounded-md">s</div>
                 <div className="bg-slate-800 px-2 py-4 m-1 rounded-md">d</div>
                 <div className="bg-slate-800 px-2 py-4 m-1 rounded-md opacity-0">f</div>
-                <div className="bg-slate-800 px-2 py-4 m-1 rounded-md">s</div>
+                <div className="bg-slate-800 px-2 py-4 m-1 rounded-md">g</div>
                 <div className="bg-slate-800 px-2 py-4 m-1 rounded-md">h</div>
                 <div className="bg-slate-800 px-2 py-4 m-1 rounded-md">j</div>
                 <div className="bg-slate-800 px-2 py-4 m-1 rounded-md opacity-0">k</div>
