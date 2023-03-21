@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/cybertracks/static/css/main.ac8b0d9f.css",
-    "main.js": "/cybertracks/static/js/main.be9e3d8f.js",
+    "main.js": "/cybertracks/static/js/main.e598d4f6.js",
     "static/js/787.9b00b6b2.chunk.js": "/cybertracks/static/js/787.9b00b6b2.chunk.js",
     "static/media/CY.wav": "/cybertracks/static/media/CY.d961038ad48baa0328a9.wav",
     "static/media/CB.wav": "/cybertracks/static/media/CB.c4db3c353af228e9666a.wav",
@@ -15,11 +15,11 @@
     "static/media/LinnDrum HiHat Decay 8.wav": "/cybertracks/static/media/LinnDrum HiHat Decay 8.189647bc6f9a6b8131cf.wav",
     "index.html": "/cybertracks/index.html",
     "main.ac8b0d9f.css.map": "/cybertracks/static/css/main.ac8b0d9f.css.map",
-    "main.be9e3d8f.js.map": "/cybertracks/static/js/main.be9e3d8f.js.map",
+    "main.e598d4f6.js.map": "/cybertracks/static/js/main.e598d4f6.js.map",
     "787.9b00b6b2.chunk.js.map": "/cybertracks/static/js/787.9b00b6b2.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.ac8b0d9f.css",
-    "static/js/main.be9e3d8f.js"
+    "static/js/main.e598d4f6.js"
   ]
 }
