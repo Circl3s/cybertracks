@@ -1116,8 +1116,19 @@ class App extends React.Component {
 
   mute = (n, click) => {
     this.setState((state, props) => {
+      let new_mutes;
+      let mutes_sum = state.mutes.reduce((a, b) => a + b, 0);
+      if (click?.button === 1) { //? Solo when middle clicked
+        if (mutes_sum === 0 || state.mutes[n] === true) {
+          new_mutes = state.mutes.map((v, i) => i === n ? false : true);
+        } else {
+          new_mutes = state.mutes.map(() => false);
+        }
+      } else {
+        new_mutes = state.mutes.map((v, i) => i === n ? !v : v);
+      }
       return {
-        mutes: click?.button === 1 ? state.mutes.map((v, i) => i === n ? v : !v) : state.mutes.map((v, i) => i === n ? !v : v)
+        mutes: new_mutes
       };
     });
   }
